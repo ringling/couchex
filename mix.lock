@@ -1,0 +1,6 @@
+%{"couchbeam": {:git, "git://github.com/benoitc/couchbeam.git", "3e9ec88c8d0beef8300aee7fa4a9ebef49479aa7", [tag: "1.1.5"]},
+  "hackney": {:git, "git://github.com/benoitc/hackney.git", "ea5ba22c89f642ccbe16ddd108fc6cc3488646d1", [tag: "1.0.4"]},
+  "idna": {:git, "https://github.com/benoitc/erlang-idna", "5089240e653ce254273da9cff57952a60b1d2c51", [tag: "1.0.1"]},
+  "jsx": {:git, "git://github.com/talentdeficit/jsx.git", "4d549dd8a990e282c3d57c5f73213674c05ebf07", [tag: "v2.1.1"]},
+  "oauth": {:git, "git://github.com/refuge/erlang-oauth.git", "d50a78688b6b489ae0a57799519b88f3b9f81401", [ref: "master"]},
+  "ssl_verify_hostname": {:git, "https://github.com/benoitc/ssl_verify_hostname", "3e7179789603057e3ec1867802c74c7bf6f8528a", [tag: "1.0.0"]}}
