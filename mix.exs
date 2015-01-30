@@ -13,6 +13,6 @@ defmodule Couchex.Mixfile do
   end
 
   defp deps do
-    [{:couchbeam, github: "benoitc/couchbeam", tag: "1.1.5"}]
+    [{:couchbeam, github: "benoitc/couchbeam", tag: "1.1.6"}]
   end
 end

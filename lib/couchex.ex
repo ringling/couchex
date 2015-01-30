@@ -34,8 +34,14 @@ defmodule Couchex do
     :couchbeam.create_db(server, db_name, options)
   end
 
+  @doc """
+    doc = %{"key" => "value", ...}
+  """
   def save_doc(db, doc) do
-    :couchbeam.save_doc(db, doc)
+    doc
+      |> Map.to_list
+      |> Enum.reject(fn({k, v})-> {k, v} == {k, %{}} end)
+    :couchbeam.save_doc(db, {doc})
   end
 
   def open_doc(db, id) do
