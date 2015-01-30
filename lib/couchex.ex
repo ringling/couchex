@@ -38,11 +38,12 @@ defmodule Couchex do
     doc = %{"key" => "value", ...}
   """
   def save_doc(db, doc) do
-    doc
+    doc = doc
       |> Map.to_list
       |> Enum.reject(fn({k, v})-> {k, v} == {k, %{}} end)
     :couchbeam.save_doc(db, {doc})
   end
+
 
   def open_doc(db, id) do
     :couchbeam.open_doc(db, id)
