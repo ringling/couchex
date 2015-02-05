@@ -39,8 +39,7 @@ defmodule Couchex do
   """
   def save_doc(db, doc) do
     doc = doc
-      |> Map.to_list
-      |> Enum.reject(fn({k, v})-> {k, v} == {k, %{}} end)
+      |> Mapper.map_to_list
     :couchbeam.save_doc(db, {doc})
   end
 
