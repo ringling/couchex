@@ -44,12 +44,11 @@ defmodule Couchex do
   end
 
   @doc """
-    attachment = %{ name: "image.png", data: "...." }
+    attachment = %{ name: "image.png", data: "....", content_type: "image/png" }
   """
   def put_attachment(db, doc_id, attachment) do
-    {:ok, doc} = open_doc(db, doc_id)
     {:ok, {[_id, {_,rev} | doc]}} = open_doc(db, doc_id)
-    put_attachment(db, doc_id, attachment, [{:rev, rev}])
+    put_attachment(db, doc_id, attachment, [{:rev, rev}, {:content_type, attachment.content_type}])
   end
   def put_attachment(db, doc_id, attachment, options) do
     :couchbeam.put_attachment(db, doc_id, attachment.name, attachment.data, options)
@@ -63,8 +62,6 @@ defmodule Couchex do
     {:ok, doc} = open_doc(db, doc_id)
     :couchbeam.delete_attachment(db, doc, attachment_name)
   end
-
-  # {ok, Doc4} = couchbeam:open_doc(Db, DocID),
 
   def open_doc(db, id) do
     :couchbeam.open_doc(db, id)
