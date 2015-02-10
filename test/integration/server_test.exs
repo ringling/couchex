@@ -16,7 +16,7 @@ defmodule Integration.ServerTest do
   end
 
   test "get uuid", %{server: server} do
-    [uuid] = Couchex.uuid(server)
+    uuid = Couchex.uuid(server)
     assert is_binary(uuid)
   end
 

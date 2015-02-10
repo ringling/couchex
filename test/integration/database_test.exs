@@ -26,7 +26,6 @@ defmodule Integration.DatabaseTest do
     {:ok, db: db, server: TestHelper.server}
   end
 
-
   test "db info has couchdb key", %{db: db} do
     {:ok, info} = Couchex.db_info(db)
     assert info["db_name"] == @integration_test_db
@@ -75,6 +74,5 @@ defmodule Integration.DatabaseTest do
     assert Map.has_key?(resp, "Date")
     assert Couchex.db_exists?(server, @integration_test_rep_db)
   end
-
 
 end
