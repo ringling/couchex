@@ -1,5 +1,6 @@
 defmodule Integration.DocumentTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
+  use ShouldI, async: true
 
   @create_db_name "created_db"
   @existing_db_name "existing_db"
@@ -24,110 +25,113 @@ defmodule Integration.DocumentTest do
     :ok
   end
 
-  setup do
-    {:ok, db} = Couchex.open_db(TestHelper.server, @integration_test_db)
-    {:ok, db: db, server: TestHelper.server}
-  end
+  with "database" do
 
-  test "create new doc without id", %{db: db} do
-    doc = %{"key" => "value"}
-    {:ok, resp_doc} = Couchex.save_doc(db, doc)
-    assert resp_doc["key"] == "value"
-  end
+    setup context do
+      {:ok, db} = Couchex.open_db(TestHelper.server, @integration_test_db)
+      Dict.put context, :db, db
+    end
 
-  test "create new doc with id", %{db: db} do
-    doc_id = "1_FIRST_ID"
-    doc = %{"key" => "value", "_id" => doc_id}
-    {:ok, resp_doc} = Couchex.save_doc(db, doc)
-    assert resp_doc["_id"] == doc_id
-    assert resp_doc["key"] == "value"
-  end
+    should "create new doc without id", context do
+      doc = %{"key" => "value"}
+      {:ok, resp_doc} = Couchex.save_doc(context.db, doc)
+      assert resp_doc["key"] == "value"
+    end
 
-  test "creating doc with existing id should fail", %{db: db} do
-    doc_id = "EXISTING_ID"
-    doc = %{"key" => "value", "_id" => doc_id}
-    {:ok, _} = Couchex.save_doc(db, doc)
-    assert {:error, :conflict} == Couchex.save_doc(db, doc)
-  end
+    should "create new doc with id", context do
+      doc_id = "1_FIRST_ID"
+      doc = %{"key" => "value", "_id" => doc_id}
+      {:ok, resp_doc} = Couchex.save_doc(context.db, doc)
+      assert resp_doc["_id"] == doc_id
+      assert resp_doc["key"] == "value"
+    end
 
-  test "update doc", %{db: db} do
-    doc_id = "EXISTING_ID_2"
-    doc = %{"key" => "value", "_id" => doc_id}
-    {:ok, resp_doc} = Couchex.save_doc(db, doc)
-    doc = %{"key" => "value", "_id" => doc_id, "_rev" => resp_doc["_rev"]}
-    {:ok, update} = Couchex.save_doc(db, doc)
-    assert update["_id"] == doc_id
-  end
+    should "creating doc with existing id should fail", context do
+      doc_id = "EXISTING_ID"
+      doc = %{"key" => "value", "_id" => doc_id}
+      {:ok, _} = Couchex.save_doc(context.db, doc)
+      assert {:error, :conflict} == Couchex.save_doc(context.db, doc)
+    end
 
-  test "open doc", %{db: db} do
-    {:ok, doc} = Couchex.open_doc(db, %{id: @existing_doc_id})
-    assert doc["_id"] == @existing_doc_id
-    assert doc["key"] == "value"
-  end
+    should "update doc", context do
+      doc_id = "EXISTING_ID_2"
+      doc = %{"key" => "value", "_id" => doc_id}
+      {:ok, resp_doc} = Couchex.save_doc(context.db, doc)
+      doc = %{"key" => "value", "_id" => doc_id, "_rev" => resp_doc["_rev"]}
+      {:ok, update} = Couchex.save_doc(context.db, doc)
+      assert update["_id"] == doc_id
+    end
 
-  test "open not existing doc", %{db: db} do
-    assert {:error, :not_found} == Couchex.open_doc(db, %{id: "not_existing_doc_id"})
-  end
+    should "open doc", context do
+      {:ok, doc} = Couchex.open_doc(context.db, %{id: @existing_doc_id})
+      assert doc["_id"] == @existing_doc_id
+      assert doc["key"] == "value"
+    end
 
-  test "doc exists", %{db: db} do
-    assert Couchex.doc_exists?(db, @existing_doc_id)
-  end
+    should "open not existing doc", context do
+      assert {:error, :not_found} == Couchex.open_doc(context.db, %{id: "not_existing_doc_id"})
+    end
 
-  test "doc does not exist", %{db: db} do
-    refute Couchex.doc_exists?(db, "not_existing_doc_id")
-  end
+    should "doc exists", context do
+      assert Couchex.doc_exists?(context.db, @existing_doc_id)
+    end
 
-  test "all docs" do
-    {:ok, db} = Couchex.open_db(TestHelper.server, @all_docs_db)
-    TestHelper.insert_doc(db, %{"key" => "value", "_id" => "doc_id_1"})
-    TestHelper.insert_doc(db, %{"key" => "value", "_id" => "doc_id_2"})
-    resp = Couchex.all(db) |> hd
-    assert resp["doc"]["_id"] == "doc_id_1"
-  end
+    should "doc does not exist", context do
+      refute Couchex.doc_exists?(context.db, "not_existing_doc_id")
+    end
 
-  test "delete doc", %{db: db} do
-    doc = %{"key" => "value", "_id" => "DELETE_DOC"}
-    {:ok, resp_doc} = Couchex.save_doc(db, doc)
-    {:ok, resp} = Couchex.delete_doc(db, %{id: resp_doc["_id"], rev: resp_doc["_rev"]})
-    assert resp["ok"]
-    refute Couchex.doc_exists?(db, resp_doc["_id"])
-  end
+    should "all docs" do
+      {:ok, db} = Couchex.open_db(TestHelper.server, @all_docs_db)
+      TestHelper.insert_doc(db, %{"key" => "value", "_id" => "doc_id_1"})
+      TestHelper.insert_doc(db, %{"key" => "value", "_id" => "doc_id_2"})
+      resp = Couchex.all(db) |> hd
+      assert resp["doc"]["_id"] == "doc_id_1"
+    end
 
-  test "lookup_doc_rev", %{db: db} do
-    doc_id = "SOME_ID"
-    doc = %{"key" => "value", "_id" => doc_id}
-    {:ok, resp_doc} = Couchex.save_doc(db, doc)
-    {:ok, rev} = Couchex.lookup_doc_rev(db, doc_id)
-    assert rev == resp_doc["_rev"]
-  end
+    should "delete doc", context do
+      doc = %{"key" => "value", "_id" => "DELETE_DOC"}
+      {:ok, resp_doc} = Couchex.save_doc(context.db, doc)
+      {:ok, resp} = Couchex.delete_doc(context.db, %{id: resp_doc["_id"], rev: resp_doc["_rev"]})
+      assert resp["ok"]
+      refute Couchex.doc_exists?(context.db, resp_doc["_id"])
+    end
 
-  test "put attachment", %{db: db} do
-    content_type = Couchex.MIME.type("txt") # => "text/plain"
-    attachment = %{ name: "file.txt", data: "SOME DATA - HERE IT'S TEXT", content_type: content_type }
-    {:ok, response} = Couchex.put_attachment(db, %{id: @existing_doc_id}, attachment)
+    should "lookup_doc_rev", context do
+      doc_id = "SOME_ID"
+      doc = %{"key" => "value", "_id" => doc_id}
+      {:ok, resp_doc} = Couchex.save_doc(context.db, doc)
+      {:ok, rev} = Couchex.lookup_doc_rev(context.db, doc_id)
+      assert rev == resp_doc["_rev"]
+    end
 
-    assert response["id"] == @existing_doc_id
-    assert  String.contains? response["rev"], "2-"
-  end
+    should "put attachment", context do
+      content_type = Couchex.MIME.type("txt") # => "text/plain"
+      attachment = %{ name: "file.txt", data: "SOME DATA - HERE IT'S TEXT", content_type: content_type }
+      {:ok, response} = Couchex.put_attachment(context.db, %{id: @existing_doc_id}, attachment)
 
-  test "delete attachment without doc revision", %{db: db} do
-    doc_id = "SOME_ID_ATT_1"
-    TestHelper.insert_doc(db, %{"key" => "value", "_id" => doc_id})
-    TestHelper.put_txt_attachement(db, doc_id, "file.txt")
+      assert response["id"] == @existing_doc_id
+      assert  String.contains? response["rev"], "2-"
+    end
 
-    {:ok, response} = Couchex.delete_attachment(db, %{id: doc_id}, "file.txt")
-    assert response["id"] == doc_id
-    assert  String.contains? response["rev"], "3-"
-  end
+    should "delete attachment without doc revision", context do
+      doc_id = "SOME_ID_ATT_1"
+      TestHelper.insert_doc(context.db, %{"key" => "value", "_id" => doc_id})
+      TestHelper.put_txt_attachement(context.db, doc_id, "file.txt")
 
-  test "delete attachment with doc revision", %{db: db} do
-    doc_id = "SOME_ID_ATT_2"
-    TestHelper.insert_doc(db, %{"key" => "value", "_id" => doc_id})
-    {:ok, doc_info} = TestHelper.put_txt_attachement(db, doc_id, "file2.txt")
+      {:ok, response} = Couchex.delete_attachment(context.db, %{id: doc_id}, "file.txt")
+      assert response["id"] == doc_id
+      assert  String.contains? response["rev"], "3-"
+    end
 
-    {:ok, response} = Couchex.delete_attachment(db, %{id: doc_info["id"], rev: doc_info["rev"]}, "file2.txt")
-    assert response["id"] == doc_id
-    assert String.contains? response["rev"], "3-"
+    should "delete attachment with doc revision", context do
+      doc_id = "SOME_ID_ATT_2"
+      TestHelper.insert_doc(context.db, %{"key" => "value", "_id" => doc_id})
+      {:ok, doc_info} = TestHelper.put_txt_attachement(context.db, doc_id, "file2.txt")
+
+      {:ok, response} = Couchex.delete_attachment(context.db, %{id: doc_info["id"], rev: doc_info["rev"]}, "file2.txt")
+      assert response["id"] == doc_id
+      assert String.contains? response["rev"], "3-"
+    end
   end
 
 end
