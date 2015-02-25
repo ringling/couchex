@@ -323,10 +323,12 @@ defmodule Couchex do
       #=> {:ok, %{"_id" => id, "_rev" => rev, ...}}
   """
   def open_doc(db, %{id: id}) do
-    :couchbeam.open_doc(db, id) |> map_response
+    {:ok, resp } = :couchbeam.open_doc(db, id)
+    resp |> Mapper.list_to_map
   end
   def open_doc(db, %{id: id, rev: rev}) do
-    :couchbeam.open_doc(db, id, [{:rev, rev}]) |> map_response
+    {:ok, resp } = :couchbeam.open_doc(db, id, [{:rev, rev}])
+    resp |> Mapper.list_to_map
   end
 
   @doc """
