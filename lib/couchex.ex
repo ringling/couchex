@@ -323,13 +323,14 @@ defmodule Couchex do
       #=> {:ok, %{"_id" => id, "_rev" => rev, ...}}
   """
   def open_doc(db, %{id: id}) do
-    {:ok, resp } = :couchbeam.open_doc(db, id)
-    resp |> Mapper.list_to_map
+    :couchbeam.open_doc(db, id) |> map_open_resp
   end
   def open_doc(db, %{id: id, rev: rev}) do
-    {:ok, resp } = :couchbeam.open_doc(db, id, [{:rev, rev}])
-    resp |> Mapper.list_to_map
+    :couchbeam.open_doc(db, id, [{:rev, rev}]) |> map_open_resp
   end
+
+  defp map_open_resp({:error, err}), do: {:error, err}
+  defp map_open_resp({:ok, resp}),   do: resp |> Mapper.list_to_map
 
   @doc """
   Returns current document revision
@@ -454,4 +455,3 @@ end
 # x server_info/1           server_url/1            set_config/4
 # set_config/5            start/0                 stop/0
 # stream_attachment/1     stream_doc/1            version/0
-

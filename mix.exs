@@ -3,7 +3,7 @@ defmodule Couchex.Mixfile do
 
   def project do
     [app: :couchex,
-     version: "0.0.1",
+     version: "0.0.4",
      elixir: "~> 1.0",
      deps: deps]
   end
@@ -13,6 +13,6 @@ defmodule Couchex.Mixfile do
   end
 
   defp deps do
-    [{:couchbeam, github: "benoitc/couchbeam", tag: "1.1.6"}]
+    [{:couchbeam, github: "benoitc/couchbeam", tag: "1.1.7"}]
   end
 end

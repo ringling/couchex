@@ -60,7 +60,8 @@ defmodule Integration.DocumentTest do
   end
 
   test "open doc", %{db: db} do
-    {:ok, doc} = Couchex.open_doc(db, %{id: @existing_doc_id})
+    doc = Couchex.open_doc(db, %{id: @existing_doc_id})
+    refute {:error, :not_found} == doc
     assert doc["_id"] == @existing_doc_id
     assert doc["key"] == "value"
   end
