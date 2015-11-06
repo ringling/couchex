@@ -72,18 +72,6 @@ defmodule Couchex do
   end
 
   @doc """
-  Returns server_url
-
-  ## Examples
-
-      Couchex.server_url(server)
-      #=> "http://localhost:5984"
-  """
-  def server_url(server) do
-    :couchbeam.server_info(server)
-  end
-
-  @doc """
   Returns server configuration
 
   ## Examples
