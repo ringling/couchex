@@ -31,10 +31,6 @@ defmodule Integration.DatabaseTest do
     assert info["db_name"] == @integration_test_db
   end
 
-  test "db url", %{db: db} do
-    assert @integration_test_db == Couchex.db_url(db)
-  end
-
   test "delete not existing database", %{server: server} do
     assert {:error, :not_found} == Couchex.delete_db(server, "not_existing")
   end

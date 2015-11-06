@@ -80,7 +80,7 @@ defmodule Couchex do
       #=> "http://localhost:5984"
   """
   def server_url(server) do
-    :couchbeam.server_url(server)
+    :couchbeam.server_info(server)
   end
 
   @doc """
@@ -178,18 +178,6 @@ defmodule Couchex do
   """
   def db_info(db) do
     :couchbeam.db_info(db) |> map_response
-  end
-
-  @doc """
-  Returns database url.
-
-  ## Examples
-      {:ok, db} = Couchex.open_db(server, "couchex")
-      Couchex.db_url(db)
-      #=> "couchex"
-  """
-  def db_url(db) do
-    :couchbeam.db_url(db)
   end
 
   @doc """

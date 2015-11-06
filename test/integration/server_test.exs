@@ -30,9 +30,4 @@ defmodule Integration.ServerTest do
     assert config |> Map.has_key?("admins")
   end
 
-  test "server_url", %{server: server} do
-    server_url = Couchex.server_url(server)
-    assert TestHelper.server_url == server_url
-  end
-
 end
