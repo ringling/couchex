@@ -1,5 +1,6 @@
 defmodule Mapper do
 
+  def list_to_map([]), do: []
   def list_to_map({:error, err_msg}), do: {:error, err_msg}
   def list_to_map([ { hd } | tail] = list) when is_list(hd) do
     list |> Enum.map &list_to_map(&1)

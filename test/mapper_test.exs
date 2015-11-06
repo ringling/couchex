@@ -2,6 +2,9 @@ defmodule MapperTest do
 
   use ExUnit.Case, async: true
 
+  test "map empty list to list" do
+    assert [] == Mapper.list_to_map([])
+  end
 
   test "map tuple list to Map" do
     assert %{"_id" => "id", "_rev" => "rev", "foo" => "bar"} == Mapper.list_to_map([{"_id", "id"}, {"_rev", "rev"}, {"foo", "bar"}])
