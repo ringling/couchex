@@ -4,5 +4,4 @@
   "idna": {:hex, :idna, "1.0.2"},
   "jsx": {:hex, :jsx, "2.8.0"},
   "mimerl": {:hex, :mimerl, "1.0.0"},
-  "oauth": {:git, "git://github.com/refuge/erlang-oauth.git", "d50a78688b6b489ae0a57799519b88f3b9f81401", [ref: "master"]},
   "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.5"}}
