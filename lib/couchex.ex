@@ -140,6 +140,24 @@ defmodule Couchex do
   Deletes a database. The database must exist
 
   ## Examples
+      {:ok, db} = Couchex.open_db(server, "couchex")
+      #=> {:ok, {:db, server, "couchex", []}}
+      Couchex.delete_db(db)
+      #=> {:ok, :db_deleted}
+      Couchex.delete_db(db)
+      #=> {:error, :not_found}
+  """
+  def delete_db(db) do
+    case :couchbeam.delete_db(db) |> map_response do
+      {:ok, %{"ok" => true}} -> {:ok, :db_deleted}
+      response -> response
+    end
+  end
+
+  @doc """
+  Deletes a database. The database must exist
+
+  ## Examples
       Couchex.delete_db(server, "couchex")
       #=> {:ok, :db_deleted}
       Couchex.delete_db(server, "couchex")
@@ -406,28 +424,3 @@ defmodule Couchex do
   defp map_response(response), do: {:ok, response}
 
 end
-
-# :couchbeam functions
-# x all_dbs/1               x compact/1               compact/2
-# copy_doc/2              copy_doc/3              x create_db/2
-# create_db/3             create_db/4             x db_exists/2
-# x db_info/1               x db_url/1                x delete_attachment/3
-# delete_attachment/4     delete_config/3         delete_config/4
-# delete_db/1             x delete_db/2             delete_doc/2
-# x delete_doc/3            delete_docs/2           delete_docs/3
-# doc_exists/2            doc_url/2               end_doc_stream/1
-# ensure_full_commit/1    ensure_full_commit/2    fetch_attachment/3
-# fetch_attachment/4      get_config/1            get_config/2
-# get_config/3            get_missing_revs/2      x get_uuid/1
-# x get_uuids/2             lookup_doc_rev/2        lookup_doc_rev/3
-# module_info/0           module_info/1           open_db/2
-# x open_db/3               open_doc/2              open_doc/3
-# open_or_create_db/2     open_or_create_db/3     open_or_create_db/4
-# put_attachment/4        put_attachment/5        x replicate/2
-# replicate/3             replicate/4             x save_doc/2
-# save_doc/3              save_doc/4              save_docs/2
-# save_docs/3             send_attachment/2       server_connection/0
-# server_connection/1     server_connection/2     server_connection/4
-# x server_info/1           server_url/1            set_config/4
-# set_config/5            start/0                 stop/0
-# stream_attachment/1     stream_doc/1            version/0

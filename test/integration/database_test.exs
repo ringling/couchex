@@ -35,10 +35,16 @@ defmodule Integration.DatabaseTest do
     assert {:error, :not_found} == Couchex.delete_db(server, "not_existing")
   end
 
-  test "delete existing database", %{server: server} do
+  test "delete existing database by name", %{server: server} do
     db_name = "some_db"
     Couchex.create_db(server, db_name)
     assert {:ok, :db_deleted} == Couchex.delete_db(server, db_name)
+  end
+
+  test "delete existing databasee", %{server: server} do
+    db_name = "some_db_1"
+    {:ok, db} = Couchex.create_db(server, db_name)
+    assert {:ok, :db_deleted} == Couchex.delete_db(db)
   end
 
   test "create database", %{server: server} do
