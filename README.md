@@ -7,6 +7,22 @@ Elixir wrapper around the [couchbeam](https://github.com/benoitc/couchbeam/) Erl
 See iex help @doc, for usage info
 
 
+## Installation
+
+First, add Couchex to your `mix.exs` dependencies:
+
+```elixir
+def deps do
+  [{:couchex, "~> 0.6.0"}]
+end
+```
+
+Then, update your dependencies:
+
+```sh-session
+$ mix deps.get
+```
+
 ## Couchbeam
 
 
