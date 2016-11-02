@@ -23,6 +23,10 @@ Then, update your dependencies:
 $ mix deps.get
 ```
 
+## Tests
+
+To run integration tests, add a user `test/test` on localhost:5984 couch server
+
 ## Couchbeam
 
 
