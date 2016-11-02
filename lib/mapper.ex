@@ -2,17 +2,17 @@ defmodule Mapper do
 
   def list_to_map([]), do: []
   def list_to_map({:error, err_msg}), do: {:error, err_msg}
-  def list_to_map([ { hd } | tail] = list) when is_list(hd) do
+  def list_to_map([ { hd } | _tail] = list) when is_list(hd) do
     list |> Enum.map(&list_to_map(&1))
   end
   def list_to_map({list}) when is_list(list) do
     list_to_map(list)
   end
-  def list_to_map([ hd | tail] = tuple_list) when is_tuple(hd)  do
+  def list_to_map([ hd | _tail] = tuple_list) when is_tuple(hd)  do
     tuple_list |> Enum.reduce(%{}, fn(pair, acc)-> tuple_to_map(pair, acc) end)
   end
 
-  defp tuple_to_map({list}, map) when is_list(list),do: list_to_map(list)
+  defp tuple_to_map({list}, _map) when is_list(list),do: list_to_map(list)
   defp tuple_to_map({k,v}, map) when is_tuple(v),   do: map |> Map.put(k, tuple_to_map(v, %{}))
   defp tuple_to_map({k,v}, map),                    do: map |> Map.put(k, parse_value(v))
 
