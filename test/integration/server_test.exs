@@ -25,9 +25,4 @@ defmodule Integration.ServerTest do
     assert length(uuids) == 3
   end
 
-  test "get config", %{server: server} do
-    {:ok, config} = Couchex.get_config(server)
-    assert config |> Map.has_key?("admins")
-  end
-
 end

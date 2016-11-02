@@ -43,8 +43,6 @@ Copyright  2007-2008 Basho Technologies
 * copy_doc/3
 * create_db/4
 * delete_attachment/4
-* delete_config/3
-* delete_config/4
 * delete_doc/2
 * delete_docs/2
 * delete_docs/3
@@ -54,9 +52,6 @@ Copyright  2007-2008 Basho Technologies
 * ensure_full_commit/2
 * fetch_attachment/3
 * fetch_attachment/4
-* get_config/1
-* get_config/2
-* get_config/3
 * get_missing_revs/2
 * lookup_doc_rev/2
 * lookup_doc_rev/3
@@ -81,8 +76,6 @@ Copyright  2007-2008 Basho Technologies
 * server_connection/2
 * server_connection/4
 * server_url/1
-* set_config/4
-* set_config/5
 * start/0
 * stop/0
 * stream_attachment/1

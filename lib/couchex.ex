@@ -72,18 +72,6 @@ defmodule Couchex do
   end
 
   @doc """
-  Returns server configuration
-
-  ## Examples
-      Couchex.get_config(server)
-      #=> {:ok, %{"admins" => {[...]}}
-
-  """
-  def get_config(server) do
-    :couchbeam.get_config(server) |> map_response
-  end
-
-  @doc """
   Returns a single server generated uuid
 
   ## Examples
