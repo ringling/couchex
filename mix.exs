@@ -3,8 +3,8 @@ defmodule Couchex.Mixfile do
 
   def project do
     [app: :couchex,
-     version: "0.6.0",
-     elixir: "~> 1.1",
+     version: "0.7.0",
+     elixir: "~> 1.3",
      package: package,
      description: description,
      deps: deps]
@@ -16,7 +16,8 @@ defmodule Couchex.Mixfile do
 
   defp deps do
     [
-      {:couchbeam, github: "benoitc/couchbeam", tag: "1.1.7"},
+      {:couchbeam, "~> 1.4"},
+      {:hackney, "~> 1.6.3", override: true},
       {:ex_doc, "~> 0.11", only: :dev},
       {:earmark, ">= 0.0.0"}
     ]
