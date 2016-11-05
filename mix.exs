@@ -17,7 +17,6 @@ defmodule Couchex.Mixfile do
   defp deps do
     [
       {:couchbeam, "~> 1.4"},
-      {:hackney, "~> 1.6.3", override: true},
       {:ex_doc, "~> 0.11", only: :dev},
       {:earmark, ">= 0.0.0"}
     ]
