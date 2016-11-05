@@ -4,21 +4,22 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="generator" content="ExDoc v0.11.4">
-    <title>Couchex – couchex v0.6.0</title>
-    <link rel="stylesheet" href="dist/app-1e374caa3d.css" />
+    <meta name="generator" content="ExDoc v0.14.3">
+    <title>Couchex – couchex v0.7.0</title>
+    <link rel="stylesheet" href="dist/app-091c05798a.css" />
+    
+      <link rel="canonical" href="https://hexdocs.pm/couchex/Couchex.html" />
+    
     <script src="dist/sidebar_items.js"></script>
   </head>
   <body data-type="modules">
+    <script>if(localStorage.getItem('night-mode')) document.body.className += ' night-mode';</script>
 
     <div class="main">
 <button class="sidebar-toggle">
   <i class="icon-menu"></i>
 </button>
 <section class="sidebar">
-  <button class="sidebar-toggle">
-    <i class="icon-menu"></i>
-  </button>
 
   
   <a href="api-reference.html" class="sidebar-projectLink">
@@ -27,7 +28,7 @@
         couchex
       </h1>
       <h2 class="sidebar-projectVersion">
-        v0.6.0
+        v0.7.0
       </h2>
     </div>
     
@@ -49,24 +50,24 @@
 
     
   </ul>
-
+  <div class="gradient"></div>
   <ul id="full-list" class="sidebar-fullList"></ul>
-  <div class="sidebar-noResults"></div>
 </section>
 
 <section class="content">
-  <div id="content" class="content-inner">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
 
 
       <h1>
-        <small class="visible-xs">couchex v0.6.0</small>
+        <small class="visible-xs">couchex v0.7.0</small>
         Couchex
         
         
       </h1>
 
       
-        <section id="moduledoc" class="docstring">
+        <section id="moduledoc">
           <p>Wrapper around the <a href="https://github.com/benoitc/couchbeam/">couchbeam</a> erlang couchdb client</p>
 
         </section>
@@ -221,15 +222,6 @@
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#get_config/1">get_config(server)</a>
-  </div>
-  
-    <div class="summary-synopsis"><p>Returns server configuration</p>
-</div>
-  
-</div>
-<div class="summary-row">
-  <div class="summary-signature">
     <a href="#lookup_doc_rev/2">lookup_doc_rev(db, id)</a>
   </div>
   
@@ -346,17 +338,25 @@
             Functions
           </h1>
           <div class="detail" id="all/2">
+  
+    <span id="all/1" />
+  
   <div class="detail-header">
     <a href="#all/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">all(db, options \\ [:include_docs])</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Returns all documents in a database</p>
-<h2>Examples</h2>
+<h2 id="all/2-examples" class="section-heading">
+  <a href="#all/2-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.all(db)
 #=&gt; [
       %{
@@ -371,34 +371,46 @@
   </section>
 </div>
 <div class="detail" id="all_dbs/1">
+  
   <div class="detail-header">
     <a href="#all_dbs/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">all_dbs(server)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Returns a list of all databases</p>
-<h2>Examples</h2>
+<h2 id="all_dbs/1-examples" class="section-heading">
+  <a href="#all_dbs/1-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.all_dbs(server)
 #=&gt; {:ok, [&quot;_replicator&quot;, &quot;_users&quot;, &quot;some_db&quot;, ...]}</code></pre>
 
   </section>
 </div>
 <div class="detail" id="compact/1">
+  
   <div class="detail-header">
     <a href="#compact/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">compact(db)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Compacts a database.</p>
-<h2>Examples</h2>
+<h2 id="compact/1-examples" class="section-heading">
+  <a href="#compact/1-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">{:ok, db} = Couchex.open_db(server, &quot;couchex&quot;)
 Couchex.compact(db)
 #=&gt; :ok</code></pre>
@@ -406,17 +418,25 @@ Couchex.compact(db)
   </section>
 </div>
 <div class="detail" id="create_db/3">
+  
+    <span id="create_db/2" />
+  
   <div class="detail-header">
     <a href="#create_db/3" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">create_db(server, db_name, options \\ [])</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Creates a database. The database must NOT exist</p>
-<h2>Examples</h2>
+<h2 id="create_db/3-examples" class="section-heading">
+  <a href="#create_db/3-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.create_db(server, &quot;couchex&quot;)
 #=&gt; {:db, server, &quot;couchex&quot;, [basic_auth: {&quot;username&quot;, &quot;password&quot;}]}}
 Couchex.create_db(server, &quot;couchex&quot;)
@@ -425,34 +445,46 @@ Couchex.create_db(server, &quot;couchex&quot;)
   </section>
 </div>
 <div class="detail" id="db_exists?/2">
+  
   <div class="detail-header">
     <a href="#db_exists?/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">db_exists?(server, db_name)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Checks if database exist.</p>
-<h2>Examples</h2>
+<h2 id="db_exists?/2-examples" class="section-heading">
+  <a href="#db_exists?/2-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.db_exists?(server, &quot;couchex&quot;)
 #=&gt; true</code></pre>
 
   </section>
 </div>
 <div class="detail" id="db_info/1">
+  
   <div class="detail-header">
     <a href="#db_info/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">db_info(db)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Returns database info.</p>
-<h2>Examples</h2>
+<h2 id="db_info/1-examples" class="section-heading">
+  <a href="#db_info/1-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">{:ok, db} = Couchex.open_db(server, &quot;couchex&quot;)
 Couchex.db_info(db)
 #=&gt; %{&quot;committed_update_seq&quot; =&gt; 0, &quot;compact_running&quot; =&gt; false, &quot;data_size&quot; =&gt; 227,
@@ -464,18 +496,24 @@ Couchex.db_info(db)
   </section>
 </div>
 <div class="detail" id="delete_attachment/3">
+  
   <div class="detail-header">
     <a href="#delete_attachment/3" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">delete_attachment(db, map, attachment_name)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Delete attachment from document</p>
 <p>This method is idempotent, and will increment the document revision, even though the attachment isn’t present(e.g. already deleted)</p>
-<h2>Examples</h2>
+<h2 id="delete_attachment/3-examples" class="section-heading">
+  <a href="#delete_attachment/3-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">attachment_name = &quot;file.txt&quot;
 
 Couchex.delete_attachment(db, %{id: &quot;18c359e463c37525e0ff484dcc0003b7&quot;}, attachment_name)
@@ -487,17 +525,23 @@ Couchex.delete_attachment(db, %{id: &quot;18c359e463c37525e0ff484dcc0003b7&quot;
   </section>
 </div>
 <div class="detail" id="delete_db/1">
+  
   <div class="detail-header">
     <a href="#delete_db/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">delete_db(db)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Deletes a database. The database must exist</p>
-<h2>Examples</h2>
+<h2 id="delete_db/1-examples" class="section-heading">
+  <a href="#delete_db/1-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">{:ok, db} = Couchex.open_db(server, &quot;couchex&quot;)
 #=&gt; {:ok, {:db, server, &quot;couchex&quot;, []}}
 Couchex.delete_db(db)
@@ -508,17 +552,23 @@ Couchex.delete_db(db)
   </section>
 </div>
 <div class="detail" id="delete_db/2">
+  
   <div class="detail-header">
     <a href="#delete_db/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">delete_db(server, db_name)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Deletes a database. The database must exist</p>
-<h2>Examples</h2>
+<h2 id="delete_db/2-examples" class="section-heading">
+  <a href="#delete_db/2-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.delete_db(server, &quot;couchex&quot;)
 #=&gt; {:ok, :db_deleted}
 Couchex.delete_db(server, &quot;couchex&quot;)
@@ -527,34 +577,46 @@ Couchex.delete_db(server, &quot;couchex&quot;)
   </section>
 </div>
 <div class="detail" id="delete_doc/2">
+  
   <div class="detail-header">
     <a href="#delete_doc/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">delete_doc(db, map)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Delete a document</p>
-<h2>Examples</h2>
+<h2 id="delete_doc/2-examples" class="section-heading">
+  <a href="#delete_doc/2-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.delete_doc(db, %{id: &quot;18c359e463c37525e0ff484dcc0003b7&quot;, rev: &quot;1-59414e77c768bc202142ac82c2f129de&quot;})
 #=&gt; %{&quot;id&quot; =&gt; &quot;18c359e463c37525e0ff484dcc0003b7&quot;, &quot;ok&quot; =&gt; true, &quot;rev&quot; =&gt; &quot;2-9b2e3bcc3752a3a952a3570b2ed4d27e&quot;}</code></pre>
 
   </section>
 </div>
 <div class="detail" id="doc_exists?/2">
+  
   <div class="detail-header">
     <a href="#doc_exists?/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">doc_exists?(db, doc_id)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Returns true if document exists</p>
-<h2>Examples</h2>
+<h2 id="doc_exists?/2-examples" class="section-heading">
+  <a href="#doc_exists?/2-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.doc_exists?(db, &quot;EXISTING_DOC_ID&quot;)
 #=&gt; true
 
@@ -564,17 +626,23 @@ Couchex.doc_exists?(db, &quot;NONE_EXISTING_DOC_ID&quot;)
   </section>
 </div>
 <div class="detail" id="fetch_attachment/3">
+  
   <div class="detail-header">
     <a href="#fetch_attachment/3" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">fetch_attachment(db, doc_id, attachment_name)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Fetch attachment from document</p>
-<h2>Examples</h2>
+<h2 id="fetch_attachment/3-examples" class="section-heading">
+  <a href="#fetch_attachment/3-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">doc_id = &quot;18c359e463c37525e0ff484dcc0003b7&quot;
 attachment_name = &quot;file.txt&quot;
 Couchex.fetch_attachment(db, doc_id, attachment_name)
@@ -583,34 +651,50 @@ Couchex.fetch_attachment(db, doc_id, attachment_name)
   </section>
 </div>
 <div class="detail" id="fetch_view/3">
+  
+    <span id="fetch_view/2" />
+  
   <div class="detail-header">
     <a href="#fetch_view/3" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">fetch_view(db, arg, options \\ [])</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Fetch view</p>
 <p>options group</p>
-<h2>Examples</h2>
+<h2 id="fetch_view/3-examples" class="section-heading">
+  <a href="#fetch_view/3-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <p>{:ok, res} = Couchex.fetch_view(db, {“lists”,”company_users_by_income”},[:group])</p>
 
   </section>
 </div>
 <div class="detail" id="follow/2">
+  
+    <span id="follow/1" />
+  
   <div class="detail-header">
     <a href="#follow/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">follow(db, options \\ [])</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Follow database changes</p>
-<h2>Examples</h2>
+<h2 id="follow/2-examples" class="section-heading">
+  <a href="#follow/2-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">def changes_fun(stream_ref) do
   receive do
     {stream_ref, {:done, last_seq}} -&gt;
@@ -633,66 +717,67 @@ changes_fun(&lt;stream_ref&gt;)</code></pre>
   </section>
 </div>
 <div class="detail" id="follow_once/2">
+  
+    <span id="follow_once/1" />
+  
   <div class="detail-header">
     <a href="#follow_once/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">follow_once(db, options \\ [])</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     
   </section>
 </div>
-<div class="detail" id="get_config/1">
-  <div class="detail-header">
-    <a href="#get_config/1" class="detail-link" title="Link to this function">
-      <i class="icon-link"></i>
-    </a>
-    <span class="signature">get_config(server)</span>
-      
-  </div>
-  
-  <section class="docstring">
-    <p>Returns server configuration</p>
-<h2>Examples</h2>
-<pre><code class="elixir">Couchex.get_config(server)
-#=&gt; {:ok, %{&quot;admins&quot; =&gt; {[...]}}</code></pre>
-
-  </section>
-</div>
 <div class="detail" id="lookup_doc_rev/2">
+  
   <div class="detail-header">
     <a href="#lookup_doc_rev/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">lookup_doc_rev(db, id)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Returns current document revision</p>
-<h2>Examples</h2>
+<h2 id="lookup_doc_rev/2-examples" class="section-heading">
+  <a href="#lookup_doc_rev/2-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.lookup_doc_rev(db, &quot;18c359e463c37525e0ff484dcc0003b7&quot;)
 #=&gt; {:ok, &quot;1-59414e77c768bc202142ac82c2f129de&quot;}</code></pre>
 
   </section>
 </div>
 <div class="detail" id="open_db/3">
+  
+    <span id="open_db/2" />
+  
   <div class="detail-header">
     <a href="#open_db/3" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">open_db(server, db_name, options \\ [])</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Opens a database</p>
 <p>If credentials were passed during server_connection, they will be passed on to open_db.
 They will however be overwritten by the credentials applied to open_db</p>
-<h2>Examples</h2>
+<h2 id="open_db/3-examples" class="section-heading">
+  <a href="#open_db/3-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.open_db(server, &quot;couchex&quot;)
 #=&gt; {:ok, {:db, server, &quot;couchex&quot;, []}}
 
@@ -702,17 +787,23 @@ Couchex.open_db(server, &quot;couchex&quot;, [{:basic_auth, {&quot;username&quot
   </section>
 </div>
 <div class="detail" id="open_doc/2">
+  
   <div class="detail-header">
     <a href="#open_doc/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">open_doc(db, map)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Retreives document as map, by id with or without revision</p>
-<h2>Examples</h2>
+<h2 id="open_doc/2-examples" class="section-heading">
+  <a href="#open_doc/2-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.open_doc(db, %{id: id})
 #=&gt; {:ok, %{&quot;_id&quot; =&gt; id, &quot;_rev&quot; =&gt; rev, ...}}
 
@@ -722,17 +813,23 @@ Couchex.open_doc(db, %{id: id, rev: revision})
   </section>
 </div>
 <div class="detail" id="put_attachment/3">
+  
   <div class="detail-header">
     <a href="#put_attachment/3" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">put_attachment(db, map, attachment)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Put an attachment to document</p>
-<h2>Examples</h2>
+<h2 id="put_attachment/3-examples" class="section-heading">
+  <a href="#put_attachment/3-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">attachment = %{ name: &quot;image.png&quot;, data: &quot;....&quot;, content_type: &quot;image/png&quot; }
 Couchex.put_attachment(db, %{id: id}, attachment) # latest revision
 #=&gt; {:ok, %{&quot;id&quot; =&gt; &quot;18c359e463c37525e0ff484dcc0003b7&quot;, &quot;rev&quot; =&gt; &quot;3-ebe18f0e4f4c3c717a9e9291bc2465b3&quot;}}
@@ -747,17 +844,23 @@ Couchex.put_attachment(db, %{id: doc_id, rev: revision}, attachment)
   </section>
 </div>
 <div class="detail" id="replicate/2">
+  
   <div class="detail-header">
     <a href="#replicate/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">replicate(server, rep_obj)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Replicates a database from source to target</p>
-<h2>Examples</h2>
+<h2 id="replicate/2-examples" class="section-heading">
+  <a href="#replicate/2-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <p><code class="inline">create_target</code> param, target db is created if not already present</p>
 <p><code class="inline">continuous</code> param, replication runs continuously until server restart</p>
 <pre><code class="elixir">Couchex.replicate(server, %{source: &quot;sourcedb&quot;, target: &quot;targetdb&quot;, create_target: true})
@@ -775,18 +878,24 @@ Couchex.replicate(server, %{source: &quot;https://user:pass@sourcedb&quot;, targ
   </section>
 </div>
 <div class="detail" id="save_doc/2">
+  
   <div class="detail-header">
     <a href="#save_doc/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">save_doc(db, doc)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Save and update a document</p>
 <p>Update a document, by using an existing document id</p>
-<h2>Examples</h2>
+<h2 id="save_doc/2-examples" class="section-heading">
+  <a href="#save_doc/2-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.save_doc(db, %{&quot;key&quot; =&gt; &quot;value&quot;}) # Couch auto creates id
 #=&gt; %{&quot;_id&quot; =&gt; &quot;c1cdba4b7d7a963b9ca7c5445684679f&quot;, &quot;_rev&quot; =&gt; &quot;1-59414e77c768bc202142ac82c2f129de&quot;, &quot;key&quot; =&gt; &quot;value&quot;}
 
@@ -796,17 +905,23 @@ Couchex.save_doc(db, %{&quot;_id&quot; =&gt; &quot;FIRST_ID&quot;, &quot;key&quo
   </section>
 </div>
 <div class="detail" id="server_connection/0">
+  
   <div class="detail-header">
     <a href="#server_connection/0" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">server_connection()</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Returns a server connection</p>
-<h2>Examples</h2>
+<h2 id="server_connection/0-examples" class="section-heading">
+  <a href="#server_connection/0-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.server_connection(&quot;url&quot;)
 #=&gt; {:server, &quot;url&quot;, []}
 
@@ -816,64 +931,86 @@ Couchex.server_connection(@couchdb_url, [{:basic_auth, {&quot;username&quot;, &q
   </section>
 </div>
 <div class="detail" id="server_connection/2">
+  
+    <span id="server_connection/1" />
+  
   <div class="detail-header">
     <a href="#server_connection/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">server_connection(url, options \\ [])</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     
   </section>
 </div>
 <div class="detail" id="server_info/1">
+  
   <div class="detail-header">
     <a href="#server_info/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">server_info(server)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Returns basic info about server</p>
-<h2>Examples</h2>
+<h2 id="server_info/1-examples" class="section-heading">
+  <a href="#server_info/1-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.server_info(server)
 #=&gt; %{&quot;couchdb&quot; =&gt; &quot;Welcome&quot;, &quot;uuid&quot; =&gt; &quot;c1cdba4b7d7a963b9ca7c5445684679f&quot;, &quot;vendor&quot; =&gt; {[{&quot;version&quot;, &quot;1.5.0-1&quot;}, {&quot;name&quot;, &quot;Homebrew&quot;}]}, &quot;version&quot; =&gt; &quot;1.5.0&quot;}</code></pre>
 
   </section>
 </div>
 <div class="detail" id="uuid/1">
+  
   <div class="detail-header">
     <a href="#uuid/1" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">uuid(server)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Returns a single server generated uuid</p>
-<h2>Examples</h2>
+<h2 id="uuid/1-examples" class="section-heading">
+  <a href="#uuid/1-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.uuid(server)
 #=&gt; &quot;267732468d85b6fd22504aeaa4dc68e3&quot;</code></pre>
 
   </section>
 </div>
 <div class="detail" id="uuids/2">
+  
   <div class="detail-header">
     <a href="#uuids/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
     <span class="signature">uuids(server, number)</span>
-      
+    
+    
+    
   </div>
-  
   <section class="docstring">
     <p>Returns a total of <code class="inline">number</code> server generated uuids</p>
-<h2>Examples</h2>
+<h2 id="uuids/2-examples" class="section-heading">
+  <a href="#uuids/2-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
 <pre><code class="elixir">Couchex.uuids(server, 3)
 #=&gt; [&quot;267732468d85b6fd22504aeaa4fb8ac9&quot;, &quot;267732468d85b6fd22504aeaa4fb8065&quot;, &quot;267732468d85b6fd22504aeaa4fb7ca7&quot;]</code></pre>
 
@@ -886,23 +1023,24 @@ Couchex.server_connection(@couchdb_url, [{:basic_auth, {&quot;username&quot;, &q
       
 
       
-        <footer class="footer">
-      <p>
-        <span class="line">
-          Built using
-          <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.11.4),
-        </span>
-        <span class="line">
-          designed by
-          <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+          <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" rel="help" target="_blank">ExDoc</a> (v0.14.3),
           </span>
-      </p>
-      <button class="night-mode-toggle" />
-    </footer>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+        <button class="night-mode-toggle" />
+      </footer>
+    </div>
   </div>
 </section>
 </div>
-  <script src="dist/app-6d2e071366.js"></script>
+  <script src="dist/app-574613960f.js"></script>
   </body>
 </html>
 
