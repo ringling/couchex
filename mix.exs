@@ -3,11 +3,11 @@ defmodule Couchex.Mixfile do
 
   def project do
     [app: :couchex,
-     version: "0.7.0",
+     version: "0.7.1",
      elixir: "~> 1.3",
-     package: package,
-     description: description,
-     deps: deps]
+     package: package(),
+     description: description(),
+     deps: deps()]
   end
 
   def application do
@@ -16,7 +16,7 @@ defmodule Couchex.Mixfile do
 
   defp deps do
     [
-      {:couchbeam, "~> 1.4"},
+      {:couchbeam, github: "ringling/couchbeam"},
       {:ex_doc, "~> 0.11", only: :dev},
       {:earmark, ">= 0.0.0"}
     ]
