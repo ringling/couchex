@@ -202,6 +202,8 @@ defmodule Couchex do
 
   Update a document, by using an existing document id
 
+  Please remark the use of `%{"_id" => "ID", ...}` and not `%{"_id": "ID", ...}`, the latter will not work
+
   ## Examples
       Couchex.save_doc(db, %{"key" => "value"}) # Couch auto creates id
       #=> %{"_id" => "c1cdba4b7d7a963b9ca7c5445684679f", "_rev" => "1-59414e77c768bc202142ac82c2f129de", "key" => "value"}
@@ -399,7 +401,9 @@ defmodule Couchex do
   options group
 
   ## Examples
-  {:ok, res} = Couchex.fetch_view(db, {"lists","company_users_by_income"},[:group])
+
+      {:ok, res} = Couchex.fetch_view(db, {"lists","company_users_by_income"},[:group])
+
   """
   def fetch_view(db, {design_name, view_name}, options \\ []) do
     :couchbeam_view.fetch(db, {design_name, view_name}, options)
