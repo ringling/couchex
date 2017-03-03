@@ -8,7 +8,7 @@
     <title>Couchex – couchex v0.7.1</title>
     <link rel="stylesheet" href="dist/app-091c05798a.css" />
     
-    <script src="dist/sidebar_items-7cf66582cb.js"></script>
+    <script src="dist/sidebar_items-0686a7d990.js"></script>
   </head>
   <body data-type="modules">
     <script>if(localStorage.getItem('night-mode')) document.body.className += ' night-mode';</script>
@@ -182,6 +182,15 @@
   </div>
   
     <div class="summary-synopsis"><p>Delete a document</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#delete_docs/2">delete_docs(db, list)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Deletes a list of documents</p>
 </div>
   
 </div>
@@ -627,6 +636,29 @@ Couchex.delete_db(server, &quot;couchex&quot;)
 
 <pre><code class="elixir">Couchex.delete_doc(db, %{id: &quot;18c359e463c37525e0ff484dcc0003b7&quot;, rev: &quot;1-59414e77c768bc202142ac82c2f129de&quot;})
 #=&gt; %{&quot;id&quot; =&gt; &quot;18c359e463c37525e0ff484dcc0003b7&quot;, &quot;ok&quot; =&gt; true, &quot;rev&quot; =&gt; &quot;2-9b2e3bcc3752a3a952a3570b2ed4d27e&quot;}</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="delete_docs/2">
+  
+  <div class="detail-header">
+    <a href="#delete_docs/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">delete_docs(db, list)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>Deletes a list of documents</p>
+<h2 id="delete_docs/2-examples" class="section-heading">
+  <a href="#delete_docs/2-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
+<pre><code class="elixir">Couchex.delete_docs(db, [%{id: &quot;18c359e463c37525e0ff484dcc0003b7&quot;, rev: &quot;1-59414e77c768bc202142ac82c2f129de&quot;}])
+#=&gt; [%{&quot;id&quot; =&gt; &quot;18c359e463c37525e0ff484dcc0003b7&quot;, &quot;ok&quot; =&gt; true, &quot;rev&quot; =&gt; &quot;2-9b2e3bcc3752a3a952a3570b2ed4d27e&quot;}]</code></pre>
 
   </section>
 </div>

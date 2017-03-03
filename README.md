@@ -47,7 +47,6 @@ Copyright  2007-2008 Basho Technologies
 * create_db/4
 * delete_attachment/4
 * delete_doc/2
-* delete_docs/2
 * delete_docs/3
 * doc_url/2
 * end_doc_stream/1

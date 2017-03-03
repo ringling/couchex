@@ -358,6 +358,19 @@ defmodule Couchex do
   end
 
   @doc """
+  Deletes a list of documents
+
+  ## Examples
+      Couchex.delete_docs(db, [%{id: "18c359e463c37525e0ff484dcc0003b7", rev: "1-59414e77c768bc202142ac82c2f129de"}])
+      #=> [%{"id" => "18c359e463c37525e0ff484dcc0003b7", "ok" => true, "rev" => "2-9b2e3bcc3752a3a952a3570b2ed4d27e"}]
+  """
+  def delete_docs(db, list) do
+    docs = Enum.map(list, fn(doc)-> {[{"_id", doc.id}, {"_rev", doc.rev}]} end)
+    {:ok, resp} = :couchbeam.delete_docs(db, docs, [])
+    map_response(resp)
+  end
+
+  @doc """
   Returns all documents in a database
 
   ## Examples
@@ -441,9 +454,15 @@ defmodule Couchex do
   end
 
   defp map_response({:ok, [{list}]}) when is_list(list), do: {:ok, Enum.into(list, %{})}
+  defp map_response(list) when is_list(list) do
+    res = list |> Enum.map(fn(t)->
+        {l} = t
+        Enum.into(l, %{})
+      end)
+    {:ok, res}
+  end
   defp map_response({:ok, _status_code, resp, _ref}), do: {:ok, Enum.into(resp, %{})}
   defp map_response({:ok, {response}}), do: {:ok, response |> Enum.into(%{})}
   defp map_response({:error, response}), do: {:error, response}
   defp map_response(response), do: {:ok, response}
-
 end
