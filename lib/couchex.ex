@@ -177,6 +177,8 @@ defmodule Couchex do
   @doc """
   Compacts a database.
 
+  [Wiki](https://wiki.apache.org/couchdb/Compaction)
+
   ## Examples
       {:ok, db} = Couchex.open_db(server, "couchex")
       Couchex.compact(db)
@@ -184,6 +186,21 @@ defmodule Couchex do
   """
   def compact(db) do
     :couchbeam.compact(db)
+  end
+
+  @doc """
+  Compacts the view index.
+
+  [Wiki](https://wiki.apache.org/couchdb/Compaction#View_compaction)
+
+  ## Examples
+
+      {:ok, db} = Couchex.open_db(server, "couchex")
+      Couchex.compact(db, "design_name")
+      #=> :ok
+  """
+  def compact(db, design_name) do
+    :couchbeam.compact(db, design_name)
   end
 
   @doc """

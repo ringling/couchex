@@ -7,6 +7,17 @@ defmodule Integration.DatabaseTest do
   @integration_test_rep_db "couchex_rep"
   @existing_doc_id "couchex"
   @existing_doc %{"key" => "value", "_id" => @existing_doc_id}
+  @design_doc %{
+    "_id" => "_design/lists",
+    "language": "javascript",
+    "views": %{
+       "byKey": %{
+          "map": "function(doc) {\n  emit(doc.key, doc);\n}"
+       }
+     }
+   }
+
+
 
   setup_all do
     # Delete old integration test db
@@ -18,6 +29,7 @@ defmodule Integration.DatabaseTest do
     Couchex.create_db(TestHelper.server, @integration_test_db)
     {:ok, db} = Couchex.open_db(TestHelper.server, @integration_test_db)
     Couchex.save_doc(db, @existing_doc)
+    Couchex.save_doc(db, @design_doc)
     :ok
   end
 
@@ -59,11 +71,18 @@ defmodule Integration.DatabaseTest do
     refute Couchex.db_exists?(server, "not_existing")
   end
 
-  # test "compact database", %{db: db} do
-  #   {:db, server, db_name, _opts} = db
-  #   assert Couchex.db_exists?(server, db_name)
-  #   assert :ok == Couchex.compact(db)
-  # end
+  test "compact database", %{db: db} do
+    {:db, server, db_name, _opts} = db
+    assert Couchex.db_exists?(server, db_name)
+    assert :ok == Couchex.compact(db)
+  end
+
+  test "compact view index", %{db: db} do
+    {:db, server, db_name, _opts} = db
+    design_name = "lists"
+    assert Couchex.db_exists?(server, db_name)
+    assert :ok == Couchex.compact(db, design_name)
+  end
 
   test "replicate database", %{server: server} do
     rep_obj = %{source: @integration_test_db, target: @integration_test_rep_db, create_target: true}
@@ -72,11 +91,11 @@ defmodule Integration.DatabaseTest do
     assert Couchex.db_exists?(server, @integration_test_rep_db)
   end
 
-  # test "replicate database continuous", %{server: server} do
-  #   rep_obj = %{source: @integration_test_db, target: @integration_test_rep_db, create_target: true , continuous: true}
-  #   {:ok, resp} = Couchex.replicate(server, rep_obj)
-  #   assert Map.has_key?(resp, "Date")
-  #   assert Couchex.db_exists?(server, @integration_test_rep_db)
-  # end
+  test "replicate database continuous", %{server: server} do
+    rep_obj = %{source: @integration_test_db, target: @integration_test_rep_db, create_target: true , continuous: true}
+    {:ok, resp} = Couchex.replicate(server, rep_obj)
+    assert Map.has_key?(resp, "Date")
+    assert Couchex.db_exists?(server, @integration_test_rep_db)
+  end
 
 end

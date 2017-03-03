@@ -8,7 +8,7 @@
     <title>Couchex – couchex v0.7.1</title>
     <link rel="stylesheet" href="dist/app-091c05798a.css" />
     
-    <script src="dist/sidebar_items-7b3dd88b61.js"></script>
+    <script src="dist/sidebar_items-7cf66582cb.js"></script>
   </head>
   <body data-type="modules">
     <script>if(localStorage.getItem('night-mode')) document.body.className += ' night-mode';</script>
@@ -110,6 +110,15 @@
   </div>
   
     <div class="summary-synopsis"><p>Compacts a database</p>
+</div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#compact/2">compact(db, view_name)</a>
+  </div>
+  
+    <div class="summary-synopsis"><p>Compacts the view index</p>
 </div>
   
 </div>
@@ -402,6 +411,7 @@
   </div>
   <section class="docstring">
     <p>Compacts a database.</p>
+<p><a href="https://wiki.apache.org/couchdb/Compaction">Wiki</a></p>
 <h2 id="compact/1-examples" class="section-heading">
   <a href="#compact/1-examples" class="hover-link"><i class="icon-link"></i></a>
   Examples
@@ -409,6 +419,31 @@
 
 <pre><code class="elixir">{:ok, db} = Couchex.open_db(server, &quot;couchex&quot;)
 Couchex.compact(db)
+#=&gt; :ok</code></pre>
+
+  </section>
+</div>
+<div class="detail" id="compact/2">
+  
+  <div class="detail-header">
+    <a href="#compact/2" class="detail-link" title="Link to this function">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">compact(db, view_name)</span>
+    
+    
+    
+  </div>
+  <section class="docstring">
+    <p>Compacts the view index.</p>
+<p><a href="https://wiki.apache.org/couchdb/Compaction#View_compaction">Wiki</a></p>
+<h2 id="compact/2-examples" class="section-heading">
+  <a href="#compact/2-examples" class="hover-link"><i class="icon-link"></i></a>
+  Examples
+</h2>
+
+<pre><code class="elixir">{:ok, db} = Couchex.open_db(server, &quot;couchex&quot;)
+Couchex.compact(db, &quot;view_name&quot;)
 #=&gt; :ok</code></pre>
 
   </section>
