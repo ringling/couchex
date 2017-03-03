@@ -2,7 +2,7 @@ ExUnit.start()
 
 defmodule TestHelper do
   def server do
-    Couchex.server_connection(server_url, [{:basic_auth, {"test", "test"}}])
+    Couchex.server_connection(server_url(), [{:basic_auth, {"test", "test"}}])
   end
 
   def server_url do
