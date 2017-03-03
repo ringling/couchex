@@ -42,7 +42,6 @@ Copyright  2007-2008 Basho Technologies
 
 ## Not implemented :couchbeam functions
 
-* compact/2
 * copy_doc/2
 * copy_doc/3
 * create_db/4

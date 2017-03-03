@@ -115,7 +115,7 @@
 </div>
 <div class="summary-row">
   <div class="summary-signature">
-    <a href="#compact/2">compact(db, view_name)</a>
+    <a href="#compact/2">compact(db, design_name)</a>
   </div>
   
     <div class="summary-synopsis"><p>Compacts the view index</p>
@@ -429,7 +429,7 @@ Couchex.compact(db)
     <a href="#compact/2" class="detail-link" title="Link to this function">
       <i class="icon-link"></i>
     </a>
-    <span class="signature">compact(db, view_name)</span>
+    <span class="signature">compact(db, design_name)</span>
     
     
     
@@ -443,7 +443,7 @@ Couchex.compact(db)
 </h2>
 
 <pre><code class="elixir">{:ok, db} = Couchex.open_db(server, &quot;couchex&quot;)
-Couchex.compact(db, &quot;view_name&quot;)
+Couchex.compact(db, &quot;design_name&quot;)
 #=&gt; :ok</code></pre>
 
   </section>
@@ -696,13 +696,28 @@ Couchex.fetch_attachment(db, doc_id, attachment_name)
   </div>
   <section class="docstring">
     <p>Fetch view</p>
-<p>options group</p>
 <h2 id="fetch_view/3-examples" class="section-heading">
   <a href="#fetch_view/3-examples" class="hover-link"><i class="icon-link"></i></a>
   Examples
 </h2>
 
-<pre><code class="elixir">{:ok, res} = Couchex.fetch_view(db, {&quot;lists&quot;,&quot;company_users_by_income&quot;},[:group])</code></pre>
+<pre><code class="elixir">{:ok, res} = Couchex.fetch_view(db, {&quot;lists&quot;,&quot;company_users_by_income&quot;},[:group])
+
+When having a design doc like this,
+
+design_doc = %{
+   &quot;_id&quot; =&gt; &quot;_design/lists&quot;,
+   &quot;language&quot;: &quot;javascript&quot;,
+   &quot;views&quot;: %{
+       &quot;by_customer_id&quot;: %{
+           &quot;map&quot;: &quot;function(doc) {  emit(doc.customer_id, doc);}&quot;
+       }
+   }
+}
+
+fetch docs by customer id
+
+{:ok, res} = Couchex.fetch_view(db, {&quot;lists&quot;,&quot;by_customer_id&quot;},[key: customer_id])</code></pre>
 
   </section>
 </div>

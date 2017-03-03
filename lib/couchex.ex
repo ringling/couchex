@@ -415,11 +415,25 @@ defmodule Couchex do
   @doc """
   Fetch view
 
-  options group
-
   ## Examples
 
       {:ok, res} = Couchex.fetch_view(db, {"lists","company_users_by_income"},[:group])
+
+      When having a design doc like this,
+
+      design_doc = %{
+         "_id" => "_design/lists",
+         "language": "javascript",
+         "views": %{
+             "by_customer_id": %{
+                 "map": "function(doc) {  emit(doc.customer_id, doc);}"
+             }
+         }
+      }
+
+      fetch docs by customer id
+
+      {:ok, res} = Couchex.fetch_view(db, {"lists","by_customer_id"},[key: customer_id])
 
   """
   def fetch_view(db, {design_name, view_name}, options \\ []) do
