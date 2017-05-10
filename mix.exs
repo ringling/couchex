@@ -11,12 +11,13 @@ defmodule Couchex.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :couchbeam]]
+    [applications: [:logger, :couchbeam_amuino]]
   end
 
   defp deps do
     [
-      {:couchbeam, github: "ringling/couchbeam"},
+      #{:couchbeam, github: "ringling/couchbeam"},
+      {:couchbeam_amuino, "~> 1.4.3-amuino.5"},
       {:ex_doc, "~> 0.11", only: :dev},
       {:earmark, ">= 0.0.0"}
     ]
