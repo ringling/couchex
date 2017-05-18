@@ -13,7 +13,7 @@ First, add Couchex to your `mix.exs` dependencies:
 
 ```elixir
 def deps do
-  [{:couchex, "~> 0.7.1"}]
+  [{:couchex, "~> 0.8"}]
 end
 ```
 
