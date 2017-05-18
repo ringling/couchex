@@ -19,7 +19,8 @@ defmodule Couchex.Mixfile do
       #{:couchbeam, github: "ringling/couchbeam"},
       {:couchbeam_amuino, "~> 1.4.3-amuino.5"},
       {:ex_doc, "~> 0.11", only: :dev},
-      {:earmark, ">= 0.0.0"}
+      {:earmark, ">= 0.0.0"},
+      {:poison, "~> 3.0"}
     ]
   end
 
