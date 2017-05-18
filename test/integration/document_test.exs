@@ -66,6 +66,37 @@ defmodule Integration.DocumentTest do
     assert doc["key"] == "value"
   end
 
+  test "should find all docs with mango query", %{db: db} do
+    query = %{
+      "selector": %{
+        "_id": %{
+          "$gt": nil
+        }
+      }
+    }
+
+    docs = Couchex.find(db, query)
+    doc_ids = Enum.map(docs, &(&1["_id"]))
+    refute [] == docs
+    assert Enum.any?(doc_ids, fn(x) -> x == @existing_doc_id end)
+  end
+
+  test "should find specific doc with mango query", %{db: db} do
+    query = %{
+      "selector": %{
+        "_id": %{
+          "$eq": @existing_doc_id
+        }
+      }
+    }
+
+    docs = Couchex.find(db, query)
+    refute [] == docs
+    [doc] = docs
+    assert doc["_id"] == @existing_doc_id
+    assert doc["key"] == "value"
+  end
+
   test "open not existing doc", %{db: db} do
     assert {:error, :not_found} == Couchex.open_doc(db, %{id: "not_existing_doc_id"})
   end

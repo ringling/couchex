@@ -330,6 +330,36 @@ defmodule Couchex do
     :couchbeam.open_doc(db, id, [{:rev, rev}]) |> map_open_resp
   end
 
+  @doc """
+  - CouchDB 2.0 only -
+  Retreives all documents via mango query
+
+  ## Examples
+      query = %{
+        "selector": %{
+          "_id": %{
+            "$gt": nil
+          }
+        }
+      }
+      Couchex.find(db, query)
+      #=> [%{"_id" => "..."}, ...]
+
+  """
+  def find(db, query) do
+    {:db, server, database, opts} = db
+
+    url = :hackney_url.make_url(:couchbeam_httpc.server_url(server), :couchbeam_httpc.doc_url(db, "_find"), [])
+    headers = [{"Content-Type","application/json"}]
+
+    {:ok, _status_code, _headers, ref} = :couchbeam_httpc.db_request(:post, url, headers, to_json(query), opts)
+
+    {props} = :couchbeam_httpc.json_body(ref)
+    {:ok, :couchbeam_util.get_value("docs", props)} |> map_open_resp
+  end
+
+  defp to_json(query), do: query  |> Poison.encode!
+
   defp map_open_resp({:error, err}), do: {:error, err}
   defp map_open_resp({:ok, resp}),   do: resp |> Mapper.list_to_map
 
