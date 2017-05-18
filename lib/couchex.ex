@@ -344,7 +344,6 @@ defmodule Couchex do
       }
       Couchex.find(db, query)
       #=> [%{"_id" => "..."}, ...]
-
   """
   def find(db, query) do
     {:db, server, database, opts} = db

@@ -1,5 +1,5 @@
 defmodule Integration.DocumentTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
 
   @create_db_name "created_db"
   @existing_db_name "existing_db"
@@ -62,37 +62,6 @@ defmodule Integration.DocumentTest do
   test "open doc", %{db: db} do
     doc = Couchex.open_doc(db, %{id: @existing_doc_id})
     refute {:error, :not_found} == doc
-    assert doc["_id"] == @existing_doc_id
-    assert doc["key"] == "value"
-  end
-
-  test "should find all docs with mango query", %{db: db} do
-    query = %{
-      "selector": %{
-        "_id": %{
-          "$gt": nil
-        }
-      }
-    }
-
-    docs = Couchex.find(db, query)
-    doc_ids = Enum.map(docs, &(&1["_id"]))
-    refute [] == docs
-    assert Enum.any?(doc_ids, fn(x) -> x == @existing_doc_id end)
-  end
-
-  test "should find specific doc with mango query", %{db: db} do
-    query = %{
-      "selector": %{
-        "_id": %{
-          "$eq": @existing_doc_id
-        }
-      }
-    }
-
-    docs = Couchex.find(db, query)
-    refute [] == docs
-    [doc] = docs
     assert doc["_id"] == @existing_doc_id
     assert doc["key"] == "value"
   end
