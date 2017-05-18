@@ -343,7 +343,7 @@ defmodule Couchex do
         }
       }
       Couchex.find(db, query)
-      #=> [%{"_id" => "..."}, ...]
+      #=> %{ docs: [%{"_id" => "..."}, ...], warning: <ONLY IF WARNING SENT FROM SERVER> }
   """
   def find(db, query) do
     # TODO json_body response can have warning {"warning":"no matching index found, create an index to optimize query time", "docs":[]}
@@ -370,7 +370,8 @@ defmodule Couchex do
   defp map_index_resp({[{"result", "exists"}, {"id", id}, {"name", name}]}), do: {:ok, %{id: id, name: name, status: :exists}}
 
   defp map_find_resp({[{"error", _err}, {"reason", reason}]}), do: {:error, reason}
-  defp map_find_resp({props}), do: :couchbeam_util.get_value("docs", props) |> Mapper.list_to_map
+  defp map_find_resp({[{"warning", warning}, {"docs", docs}]}), do: %{ docs: Mapper.list_to_map(docs), warning: warning }
+  defp map_find_resp({[{"docs", docs}]}), do: %{ docs: Mapper.list_to_map(docs) }
 
   defp post_request(db, key, body) do
     {:db, server, _database, opts} = db

@@ -53,7 +53,7 @@ defmodule Integration.MangoTest do
 
   describe "Couchex.find/2" do
 
-    test "should return sorted response", %{db: db} do
+    test "should return sorted response with index warning", %{db: db} do
       query= %{
         "selector": %{
           "data.x": %{
@@ -63,7 +63,8 @@ defmodule Integration.MangoTest do
         "sort": [%{"key": "asc"}]
       }
 
-      [doc | _rest] = Couchex.find(db, query)
+      %{ docs: docs, warning: "no matching index found, create an index to optimize query time" } = Couchex.find(db, query)
+      [doc | _rest] = docs
       assert doc["_id"] == @existing_doc_id
     end
 
@@ -77,7 +78,7 @@ defmodule Integration.MangoTest do
         }
       }
 
-      docs = Couchex.find(db, query)
+      %{ docs: docs } = Couchex.find(db, query)
       doc_ids = Enum.map(docs, &(&1["_id"]))
       refute [] == docs
       assert Enum.any?(doc_ids, fn(x) -> x == @existing_doc_id end)
@@ -92,7 +93,7 @@ defmodule Integration.MangoTest do
         }
       }
 
-      docs = Couchex.find(db, query)
+      %{ docs: docs } = Couchex.find(db, query)
       refute [] == docs
       [doc] = docs
       assert doc["_id"] == @existing_doc_id
