@@ -346,30 +346,39 @@ defmodule Couchex do
       #=> [%{"_id" => "..."}, ...]
   """
   def find(db, query) do
-    {:db, server, database, opts} = db
-
-    url = :hackney_url.make_url(:couchbeam_httpc.server_url(server), :couchbeam_httpc.doc_url(db, "_find"), [])
-    headers = [{"Content-Type","application/json"}]
-
-    {:ok, _status_code, _headers, ref} = :couchbeam_httpc.db_request(:post, url, headers, to_json(query), opts)
-
     # TODO json_body response can have warning {"warning":"no matching index found, create an index to optimize query time", "docs":[]}
+    ref = post_request(db, "_find", query)
     ref |> :couchbeam_httpc.json_body |> map_find_resp
   end
 
+  @doc """
+  - CouchDB 2.0 only -
+  Creates an index
+
+  ## Examples
+      index = %{ "name" => "name-index", "type" => "json", "index" => %{ "fields" => [ %{ "key": "asc" } ] } }
+      Couchex.create_index(db, index)
+      #=> {:ok, %{id: "id", name: "name-index", status: :created}}
+  """
   def create_index(db, index) do
-    {:db, server, database, opts} = db
-
-    url = :hackney_url.make_url(:couchbeam_httpc.server_url(server), :couchbeam_httpc.doc_url(db, "_index"), [])
-    headers = [{"Content-Type","application/json"}]
-
-    {:ok, _status_code, _headers, ref} = :couchbeam_httpc.db_request(:post, url, headers, to_json(index), opts)
-    #{[{"error", "missing_required_key"}, {"reason", "Missing required key: index"}]}
-    ref |> :couchbeam_httpc.json_body
+    ref = post_request(db, "_index", index)
+    ref |> :couchbeam_httpc.json_body |> map_index_resp
   end
+
+  defp map_index_resp({[{"error", _err}, {"reason", reason}]}), do: {:error, reason}
+  defp map_index_resp({[{"result", "created"}, {"id", id}, {"name", name}]}), do: {:ok, %{id: id, name: name, status: :created}}
+  defp map_index_resp({[{"result", "exists"}, {"id", id}, {"name", name}]}), do: {:ok, %{id: id, name: name, status: :exists}}
 
   defp map_find_resp({[{"error", _err}, {"reason", reason}]}), do: {:error, reason}
   defp map_find_resp({props}), do: :couchbeam_util.get_value("docs", props) |> Mapper.list_to_map
+
+  defp post_request(db, key, body) do
+    {:db, server, _database, opts} = db
+    url = :hackney_url.make_url(:couchbeam_httpc.server_url(server), :couchbeam_httpc.doc_url(db, key), [])
+    headers = [{"Content-Type","application/json"}]
+    {:ok, _status_code, _headers, ref} = :couchbeam_httpc.db_request(:post, url, headers, to_json(body), opts)
+    ref
+  end
 
   defp to_json(query), do: query  |> Poison.encode!
 

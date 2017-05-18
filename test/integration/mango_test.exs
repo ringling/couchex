@@ -25,51 +25,80 @@ defmodule Integration.MangoTest do
     {:ok, db: db, server: TestHelper.server}
   end
 
-  test "should return sorted response", %{db: db} do
-    query= %{
-      "selector": %{
-        "data.x": %{
-          "$in": ["foo", "bar"]
-        }
-      },
-      "sort": [%{"key": "asc"}]
-    }
+  describe "Couchex.create_index/2" do
 
-    [doc | rest] = Couchex.find(db, query)
-    assert doc["_id"] == @existing_doc_id
+    test "should have status created", %{db: db} do
+      name = "some-index"
+      index = %{ "name" => name, "type" => "json", "index" => %{ "fields" => [ %{ "key": "asc" } ] } }
+      {:ok, resp} = Couchex.create_index(db, index)
+      assert resp.status == :created
+      assert resp.name == name
+    end
+
+    test "should have status exists", %{db: db} do
+      name = "some-index2"
+      index = %{ "name" => name, "type" => "json", "index" => %{ "fields" => [ %{ "key": "asc" } ] } }
+      Couchex.create_index(db, index)
+      {:ok, resp} = Couchex.create_index(db, index)
+      assert resp.status == :exists
+      assert resp.name == name
+    end
+
+    test "should fail when index map hasn't required key 'index'", %{db: db} do
+      wrong_format_index = %{ "name" => "some-index3", "type" => "json"}
+      assert {:error, "Missing required key: index"} == Couchex.create_index(db, wrong_format_index)
+    end
+
   end
 
-  test "should find all docs with mango query", %{db: db} do
+  describe "Couchex.find/2" do
 
-    query = %{
-      "selector": %{
-        "_id": %{
-          "$gt": nil
+    test "should return sorted response", %{db: db} do
+      query= %{
+        "selector": %{
+          "data.x": %{
+            "$in": ["foo", "bar"]
+          }
+        },
+        "sort": [%{"key": "asc"}]
+      }
+
+      [doc | _rest] = Couchex.find(db, query)
+      assert doc["_id"] == @existing_doc_id
+    end
+
+    test "should find all docs with mango query", %{db: db} do
+
+      query = %{
+        "selector": %{
+          "_id": %{
+            "$gt": nil
+          }
         }
       }
-    }
 
-    docs = Couchex.find(db, query)
-    doc_ids = Enum.map(docs, &(&1["_id"]))
-    refute [] == docs
-    assert Enum.any?(doc_ids, fn(x) -> x == @existing_doc_id end)
-  end
+      docs = Couchex.find(db, query)
+      doc_ids = Enum.map(docs, &(&1["_id"]))
+      refute [] == docs
+      assert Enum.any?(doc_ids, fn(x) -> x == @existing_doc_id end)
+    end
 
-  test "should find specific doc with mango query", %{db: db} do
-    query = %{
-      "selector": %{
-        "_id": %{
-          "$eq": @existing_doc_id
+    test "should find specific doc with mango query", %{db: db} do
+      query = %{
+        "selector": %{
+          "_id": %{
+            "$eq": @existing_doc_id
+          }
         }
       }
-    }
 
-    docs = Couchex.find(db, query)
-    refute [] == docs
-    [doc] = docs
-    assert doc["_id"] == @existing_doc_id
-    assert doc["key"] == "value"
+      docs = Couchex.find(db, query)
+      refute [] == docs
+      [doc] = docs
+      assert doc["_id"] == @existing_doc_id
+      assert doc["key"] == "value"
+    end
+
   end
-
 
 end
