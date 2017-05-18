@@ -353,9 +353,23 @@ defmodule Couchex do
 
     {:ok, _status_code, _headers, ref} = :couchbeam_httpc.db_request(:post, url, headers, to_json(query), opts)
 
-    {props} = :couchbeam_httpc.json_body(ref)
-    {:ok, :couchbeam_util.get_value("docs", props)} |> map_open_resp
+    # TODO json_body response can have warning {"warning":"no matching index found, create an index to optimize query time", "docs":[]}
+    ref |> :couchbeam_httpc.json_body |> map_find_resp
   end
+
+  def create_index(db, index) do
+    {:db, server, database, opts} = db
+
+    url = :hackney_url.make_url(:couchbeam_httpc.server_url(server), :couchbeam_httpc.doc_url(db, "_index"), [])
+    headers = [{"Content-Type","application/json"}]
+
+    {:ok, _status_code, _headers, ref} = :couchbeam_httpc.db_request(:post, url, headers, to_json(index), opts)
+    #{[{"error", "missing_required_key"}, {"reason", "Missing required key: index"}]}
+    ref |> :couchbeam_httpc.json_body
+  end
+
+  defp map_find_resp({[{"error", _err}, {"reason", reason}]}), do: {:error, reason}
+  defp map_find_resp({props}), do: :couchbeam_util.get_value("docs", props) |> Mapper.list_to_map
 
   defp to_json(query), do: query  |> Poison.encode!
 

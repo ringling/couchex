@@ -3,7 +3,11 @@ defmodule Integration.MangoTest do
 
   @integration_test_db "couchex"
   @existing_doc_id "couchex"
-  @existing_doc %{"key" => "value", "_id" => @existing_doc_id}
+  @existing_doc_id2 "couchex2"
+  @existing_doc %{"data" => %{ "x" => "foo" }, "key" => "value", "_id" => @existing_doc_id}
+  @existing_doc2 %{"data" => %{ "x" => "bar" }, "key" => "value2", "_id" => @existing_doc_id2}
+
+  @index %{ "name" => "foo-index", "type" => "json", "index" => %{ "fields" => [ %{ "key": "asc" } ] } }
 
   setup_all do
     Couchex.delete_db(TestHelper.server, @integration_test_db)
@@ -11,6 +15,8 @@ defmodule Integration.MangoTest do
     Couchex.create_db(TestHelper.server, @integration_test_db)
     {:ok, db} = Couchex.open_db(TestHelper.server, @integration_test_db)
     Couchex.save_doc(db, @existing_doc)
+    Couchex.save_doc(db, @existing_doc2)
+    Couchex.create_index(db, @index)
     :ok
   end
 
@@ -19,7 +25,22 @@ defmodule Integration.MangoTest do
     {:ok, db: db, server: TestHelper.server}
   end
 
+  test "should return sorted response", %{db: db} do
+    query= %{
+      "selector": %{
+        "data.x": %{
+          "$in": ["foo", "bar"]
+        }
+      },
+      "sort": [%{"key": "asc"}]
+    }
+
+    [doc | rest] = Couchex.find(db, query)
+    assert doc["_id"] == @existing_doc_id
+  end
+
   test "should find all docs with mango query", %{db: db} do
+
     query = %{
       "selector": %{
         "_id": %{
