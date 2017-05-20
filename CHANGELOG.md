@@ -1,3 +1,7 @@
+# Changelog for Couchex v0.8.0
+
+Adding mango queries and mango index creation
+
 # Changelog for Couchex v0.7.0
 
 ### 1. Enhancements

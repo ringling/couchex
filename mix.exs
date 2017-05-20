@@ -3,7 +3,7 @@ defmodule Couchex.Mixfile do
 
   def project do
     [app: :couchex,
-     version: "0.8.0",
+     version: "0.8.1",
      elixir: "~> 1.3",
      package: package(),
      description: description(),
