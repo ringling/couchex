@@ -347,8 +347,13 @@ defmodule Couchex do
   """
   def find(db, query) do
     # TODO json_body response can have warning {"warning":"no matching index found, create an index to optimize query time", "docs":[]}
-    ref = post_request(db, "_find", query)
-    ref |> :couchbeam_httpc.json_body |> map_find_resp
+    case post_request(db, "_find", query) do
+      {:error, err} -> {:error, err}
+      response ->
+        response
+          |> :couchbeam_httpc.json_body
+          |> map_find_resp
+      end
   end
 
   @doc """
@@ -377,8 +382,12 @@ defmodule Couchex do
     {:db, server, _database, opts} = db
     url = :hackney_url.make_url(:couchbeam_httpc.server_url(server), :couchbeam_httpc.doc_url(db, key), [])
     headers = [{"Content-Type","application/json"}]
-    {:ok, _status_code, _headers, ref} = :couchbeam_httpc.db_request(:post, url, headers, to_json(body), opts)
-    ref
+    response = :couchbeam_httpc.db_request(:post, url, headers, to_json(body), opts)
+    case response do
+      {:ok, _status_code, _headers, ref} -> ref
+      {:error, err} -> {:error, err}
+    end
+
   end
 
   defp to_json(query), do: query  |> Poison.encode!
