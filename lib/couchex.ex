@@ -1,5 +1,9 @@
 defmodule Couchex do
 
+  @type option :: {atom, {String.t, String.t}}
+  @type server :: {atom, String.t, list(option)}
+  @type database :: {atom, server, String.t, list(option)}
+
   @moduledoc """
   Wrapper around the [couchbeam](https://github.com/benoitc/couchbeam/) erlang couchdb client
   """
@@ -15,7 +19,10 @@ defmodule Couchex do
       Couchex.server_connection(@couchdb_url, [{:basic_auth, {"username", "password"}}])
       #=> {:server, "url", [{:basic_auth, {"username", "password"}}]}
   """
+  @spec server_connection() :: server
   def server_connection, do: server_connection("http://localhost:5984")
+
+  @spec server_connection(String.t, list(option)) :: server
   def server_connection(url, options \\ []) do
     :couchbeam.server_connection(url, options)
   end
@@ -27,6 +34,7 @@ defmodule Couchex do
       Couchex.server_info(server)
       #=> %{"couchdb" => "Welcome", "uuid" => "c1cdba4b7d7a963b9ca7c5445684679f", "vendor" => {[{"version", "1.5.0-1"}, {"name", "Homebrew"}]}, "version" => "1.5.0"}
   """
+  @spec server_info(server) :: map()
   def server_info(server) do
     :couchbeam.server_info(server)
     |> map_response
@@ -402,6 +410,7 @@ defmodule Couchex do
       Couchex.lookup_doc_rev(db, "18c359e463c37525e0ff484dcc0003b7")
       #=> {:ok, "1-59414e77c768bc202142ac82c2f129de"}
   """
+  @spec lookup_doc_rev(database, String.t) :: {atom, String.t}
   def lookup_doc_rev(db, id) do
     :couchbeam.lookup_doc_rev(db, id) |> map_response
   end
