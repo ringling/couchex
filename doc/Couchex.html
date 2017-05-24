@@ -8,8 +8,6 @@
     <title>Couchex – couchex v0.8.1</title>
     <link rel="stylesheet" href="dist/app-091c05798a.css" />
     
-      <link rel="canonical" href="https://hexdocs.pm/couchex/Couchex.html" />
-    
     <script src="dist/sidebar_items-19412ce2cd.js"></script>
   </head>
   <body data-type="modules">
@@ -82,6 +80,49 @@
             Summary
           </h1>
           
+  <div class="summary-types summary">
+    <h2>
+      <a href="#types">Types</a>
+    </h2>
+    <div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:database/0">database()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:error/0">error()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:id/0">id()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:id_rev/0">id_rev()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:option/0">option()</a>
+  </div>
+  
+</div>
+<div class="summary-row">
+  <div class="summary-signature">
+    <a href="#t:server/0">server()</a>
+  </div>
+  
+</div>
+
+  </div>
+
 
           
   <div class="summary-functions summary">
@@ -370,6 +411,144 @@ Retreives all documents via mango query
       
 
       
+        <section id="types" class="details-list">
+          <h1 class="section-heading">
+            <a class="hover-link" href="#types">
+              <i class="icon-link"></i>
+            </a>
+            Types
+          </h1>
+          <div class="types-list">
+            <div class="detail" id="t:database/0">
+  
+  <div class="detail-header">
+    <a href="#t:database/0" class="detail-link" title="Link to this type">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">database()</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>database() :: {atom, <a href="#t:server/0">server</a>, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>, [<a href="#t:option/0">option</a>]}</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="t:error/0">
+  
+  <div class="detail-header">
+    <a href="#t:error/0" class="detail-link" title="Link to this type">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">error()</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>error() :: {:error, err_msg :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>}</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="t:id/0">
+  
+  <div class="detail-header">
+    <a href="#t:id/0" class="detail-link" title="Link to this type">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">id()</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>id() :: %{id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>}</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="t:id_rev/0">
+  
+  <div class="detail-header">
+    <a href="#t:id_rev/0" class="detail-link" title="Link to this type">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">id_rev()</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>id_rev() :: %{id: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>, rev: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>}</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="t:option/0">
+  
+  <div class="detail-header">
+    <a href="#t:option/0" class="detail-link" title="Link to this type">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">option()</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>option() :: {atom, {<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>}}</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+<div class="detail" id="t:server/0">
+  
+  <div class="detail-header">
+    <a href="#t:server/0" class="detail-link" title="Link to this type">
+      <i class="icon-link"></i>
+    </a>
+    <span class="signature">server()</span>
+    
+    
+    
+      <div class="specs">
+        
+          <pre>server() :: {atom, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>, [<a href="#t:option/0">option</a>]}</pre>
+        
+      </div>
+    
+  </div>
+  <section class="docstring">
+    
+  </section>
+</div>
+
+          </div>
+        </section>
+      
 
       
         <section id="functions" class="details-list">
@@ -390,6 +569,12 @@ Retreives all documents via mango query
     <span class="signature">all(db, options \\ [:include_docs])</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>all(<a href="#t:database/0">database</a>, [<a href="#t:option/0">option</a>]) :: [map] | <a href="#t:error/0">error</a></pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -422,6 +607,12 @@ Retreives all documents via mango query
     
     
     
+      <div class="specs">
+        
+          <pre>all_dbs(<a href="#t:server/0">server</a>) :: {:ok, db_names :: [<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>]} | <a href="#t:error/0">error</a></pre>
+        
+      </div>
+    
   </div>
   <section class="docstring">
     <p>Returns a list of all databases</p>
@@ -444,6 +635,12 @@ Retreives all documents via mango query
     <span class="signature">compact(db)</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>compact(<a href="#t:database/0">database</a>) :: :ok | <a href="#t:error/0">error</a></pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -469,6 +666,12 @@ Couchex.compact(db)
     <span class="signature">compact(db, design_name)</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>compact(<a href="#t:database/0">database</a>, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>) :: :ok | <a href="#t:error/0">error</a></pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -497,6 +700,12 @@ Couchex.compact(db, &quot;design_name&quot;)
     
     
     
+      <div class="specs">
+        
+          <pre>create_db(<a href="#t:server/0">server</a>, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>, [<a href="#t:option/0">option</a>]) :: <a href="#t:database/0">database</a> | <a href="#t:error/0">error</a></pre>
+        
+      </div>
+    
   </div>
   <section class="docstring">
     <p>Creates a database. The database must NOT exist</p>
@@ -521,6 +730,12 @@ Couchex.create_db(server, &quot;couchex&quot;)
     <span class="signature">create_index(db, index)</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>create_index(<a href="#t:database/0">database</a>, index :: map) :: {:ok, map} | <a href="#t:error/0">error</a></pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -550,6 +765,12 @@ Couchex.create_index(db, index)
     
     
     
+      <div class="specs">
+        
+          <pre>db_exists?(<a href="#t:server/0">server</a>, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>) :: boolean</pre>
+        
+      </div>
+    
   </div>
   <section class="docstring">
     <p>Checks if database exist.</p>
@@ -572,6 +793,12 @@ Couchex.create_index(db, index)
     <span class="signature">db_info(db)</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>db_info(<a href="#t:database/0">database</a>) :: map | <a href="#t:error/0">error</a></pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -600,6 +827,18 @@ Couchex.db_info(db)
     <span class="signature">delete_attachment(db, map, attachment_name)</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>delete_attachment(<a href="#t:database/0">database</a>, <a href="#t:id_rev/0">id_rev</a>, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>) ::
+  {:ok, map} |
+  <a href="#t:error/0">error</a></pre>
+        
+          <pre>delete_attachment(<a href="#t:database/0">database</a>, <a href="#t:id/0">id</a>, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>) ::
+  {:ok, map} |
+  <a href="#t:error/0">error</a></pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -630,6 +869,12 @@ Couchex.delete_attachment(db, %{id: &quot;18c359e463c37525e0ff484dcc0003b7&quot;
     
     
     
+      <div class="specs">
+        
+          <pre>delete_db(<a href="#t:database/0">database</a>) :: {:ok, atom} | <a href="#t:error/0">error</a></pre>
+        
+      </div>
+    
   </div>
   <section class="docstring">
     <p>Deletes a database. The database must exist</p>
@@ -657,6 +902,12 @@ Couchex.delete_db(db)
     
     
     
+      <div class="specs">
+        
+          <pre>delete_db(<a href="#t:server/0">server</a>, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>) :: {:ok, atom} | <a href="#t:error/0">error</a></pre>
+        
+      </div>
+    
   </div>
   <section class="docstring">
     <p>Deletes a database. The database must exist</p>
@@ -682,6 +933,12 @@ Couchex.delete_db(server, &quot;couchex&quot;)
     
     
     
+      <div class="specs">
+        
+          <pre>delete_doc(<a href="#t:database/0">database</a>, map) :: map | <a href="#t:error/0">error</a></pre>
+        
+      </div>
+    
   </div>
   <section class="docstring">
     <p>Delete a document</p>
@@ -704,6 +961,12 @@ Couchex.delete_db(server, &quot;couchex&quot;)
     <span class="signature">delete_docs(db, list)</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>delete_docs(<a href="#t:database/0">database</a>, [map]) :: [map] | <a href="#t:error/0">error</a></pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -754,6 +1017,14 @@ Couchex.doc_exists?(db, &quot;NONE_EXISTING_DOC_ID&quot;)
     
     
     
+      <div class="specs">
+        
+          <pre>fetch_attachment(<a href="#t:database/0">database</a>, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>) ::
+  {:ok, binary} |
+  <a href="#t:error/0">error</a></pre>
+        
+      </div>
+    
   </div>
   <section class="docstring">
     <p>Fetch attachment from document</p>
@@ -780,6 +1051,12 @@ Couchex.fetch_attachment(db, doc_id, attachment_name)
     <span class="signature">fetch_view(db, arg, options \\ [])</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>fetch_view(<a href="#t:database/0">database</a>, tuple, [<a href="#t:option/0">option</a>]) :: map | <a href="#t:error/0">error</a></pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -819,6 +1096,12 @@ fetch docs by customer id
     
     
     
+      <div class="specs">
+        
+          <pre>find(<a href="#t:database/0">database</a>, query :: map) :: map | <a href="#t:error/0">error</a></pre>
+        
+      </div>
+    
   </div>
   <section class="docstring">
     <ul>
@@ -854,6 +1137,14 @@ Couchex.find(db, query)
     <span class="signature">follow(db, options \\ [])</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>follow(<a href="#t:database/0">database</a>, [<a href="#t:option/0">option</a>]) ::
+  {atom, stream_ref :: reference} |
+  <a href="#t:error/0">error</a></pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -896,6 +1187,14 @@ changes_fun(&lt;stream_ref&gt;)</code></pre>
     
     
     
+      <div class="specs">
+        
+          <pre>follow_once(<a href="#t:database/0">database</a>, [<a href="#t:option/0">option</a>]) ::
+  {:ok, stream_ref :: reference} |
+  <a href="#t:error/0">error</a></pre>
+        
+      </div>
+    
   </div>
   <section class="docstring">
     
@@ -910,6 +1209,14 @@ changes_fun(&lt;stream_ref&gt;)</code></pre>
     <span class="signature">lookup_doc_rev(db, id)</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>lookup_doc_rev(<a href="#t:database/0">database</a>, id :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>) ::
+  {status :: atom, revision :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>} |
+  <a href="#t:error/0">error</a></pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -935,6 +1242,14 @@ changes_fun(&lt;stream_ref&gt;)</code></pre>
     <span class="signature">open_db(server, db_name, options \\ [])</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>open_db(<a href="#t:server/0">server</a>, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>, [<a href="#t:option/0">option</a>]) ::
+  {:ok, <a href="#t:database/0">database</a>} |
+  <a href="#t:error/0">error</a></pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -964,6 +1279,14 @@ Couchex.open_db(server, &quot;couchex&quot;, [{:basic_auth, {&quot;username&quot
     
     
     
+      <div class="specs">
+        
+          <pre>open_doc(<a href="#t:database/0">database</a>, <a href="#t:id/0">id</a>) :: {:ok, map} | <a href="#t:error/0">error</a></pre>
+        
+          <pre>open_doc(<a href="#t:database/0">database</a>, <a href="#t:id_rev/0">id_rev</a>) :: {atom, map}</pre>
+        
+      </div>
+    
   </div>
   <section class="docstring">
     <p>Retreives document as map, by id with or without revision</p>
@@ -989,6 +1312,14 @@ Couchex.open_doc(db, %{id: id, rev: revision})
     <span class="signature">put_attachment(db, map, attachment)</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>put_attachment(<a href="#t:database/0">database</a>, <a href="#t:id_rev/0">id_rev</a>, binary) ::
+  {:ok, map} |
+  <a href="#t:error/0">error</a></pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -1020,6 +1351,12 @@ Couchex.put_attachment(db, %{id: doc_id, rev: revision}, attachment)
     <span class="signature">replicate(server, rep_obj)</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>replicate(<a href="#t:server/0">server</a>, map) :: {:ok, map} | <a href="#t:error/0">error</a></pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -1055,6 +1392,14 @@ Couchex.replicate(server, %{source: &quot;https://user:pass@sourcedb&quot;, targ
     
     
     
+      <div class="specs">
+        
+          <pre>save_doc(<a href="#t:database/0">database</a>, map) :: map | <a href="#t:error/0">error</a></pre>
+        
+          <pre>save_doc(<a href="#t:database/0">database</a>, <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>) :: boolean</pre>
+        
+      </div>
+    
   </div>
   <section class="docstring">
     <p>Save and update a document</p>
@@ -1082,6 +1427,12 @@ Couchex.save_doc(db, %{&quot;_id&quot; =&gt; &quot;FIRST_ID&quot;, &quot;key&quo
     <span class="signature">server_connection()</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>server_connection() :: <a href="#t:server/0">server</a></pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -1111,6 +1462,12 @@ Couchex.server_connection(@couchdb_url, [{:basic_auth, {&quot;username&quot;, &q
     
     
     
+      <div class="specs">
+        
+          <pre>server_connection(url :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>, options :: [<a href="#t:option/0">option</a>]) :: <a href="#t:server/0">server</a></pre>
+        
+      </div>
+    
   </div>
   <section class="docstring">
     
@@ -1125,6 +1482,12 @@ Couchex.server_connection(@couchdb_url, [{:basic_auth, {&quot;username&quot;, &q
     <span class="signature">server_info(server)</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>server_info(<a href="#t:server/0">server</a>) :: map</pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
@@ -1149,6 +1512,12 @@ Couchex.server_connection(@couchdb_url, [{:basic_auth, {&quot;username&quot;, &q
     
     
     
+      <div class="specs">
+        
+          <pre>uuid(<a href="#t:server/0">server</a>) :: <a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a></pre>
+        
+      </div>
+    
   </div>
   <section class="docstring">
     <p>Returns a single server generated uuid</p>
@@ -1171,6 +1540,12 @@ Couchex.server_connection(@couchdb_url, [{:basic_auth, {&quot;username&quot;, &q
     <span class="signature">uuids(server, number)</span>
     
     
+    
+      <div class="specs">
+        
+          <pre>uuids(<a href="#t:server/0">server</a>, integer) :: [<a href="https://hexdocs.pm/elixir/String.html#t:t/0">String.t</a>]</pre>
+        
+      </div>
     
   </div>
   <section class="docstring">
