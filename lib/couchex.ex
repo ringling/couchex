@@ -3,6 +3,9 @@ defmodule Couchex do
   @type option :: {atom, {String.t, String.t}}
   @type server :: {atom, String.t, list(option)}
   @type database :: {atom, server, String.t, list(option)}
+  @type id_rev :: %{id: String.t, rev: String.t}
+  @type id :: %{id: String.t}
+  @type error :: {:error, err_msg :: String.t}
 
   @moduledoc """
   Wrapper around the [couchbeam](https://github.com/benoitc/couchbeam/) erlang couchdb client
@@ -22,7 +25,7 @@ defmodule Couchex do
   @spec server_connection() :: server
   def server_connection, do: server_connection("http://localhost:5984")
 
-  @spec server_connection(String.t, list(option)) :: server
+  @spec server_connection(url :: String.t, options :: list(option)) :: server
   def server_connection(url, options \\ []) do
     :couchbeam.server_connection(url, options)
   end
@@ -34,7 +37,7 @@ defmodule Couchex do
       Couchex.server_info(server)
       #=> %{"couchdb" => "Welcome", "uuid" => "c1cdba4b7d7a963b9ca7c5445684679f", "vendor" => {[{"version", "1.5.0-1"}, {"name", "Homebrew"}]}, "version" => "1.5.0"}
   """
-  @spec server_info(server) :: map()
+  @spec server_info(server) :: map
   def server_info(server) do
     :couchbeam.server_info(server)
     |> map_response
@@ -62,6 +65,7 @@ defmodule Couchex do
       #=> #=> {:ok, %{"Cache-Control" => "must-revalidate", "Content-Length" => "84", "Content-Type" => "application/json", "Date" => "Mon, 09 Feb 2015 16:24:19 GMT", "Server" => "CouchDB/1.5.0 (Erlang OTP/R16B03)"}}
 
   """
+  @spec replicate(server, map) :: {:ok, map} | error
   def replicate(server, rep_obj) do
     :couchbeam.replicate(server, {rep_obj |> Map.to_list})
     |> map_response
@@ -75,6 +79,7 @@ defmodule Couchex do
       Couchex.all_dbs(server)
       #=> {:ok, ["_replicator", "_users", "some_db", ...]}
   """
+  @spec all_dbs(server) :: {:ok, db_names :: list(String.t)} | error
   def all_dbs(server) do
     :couchbeam.all_dbs(server)
   end
@@ -86,6 +91,7 @@ defmodule Couchex do
       Couchex.uuid(server)
       #=> "267732468d85b6fd22504aeaa4dc68e3"
   """
+  @spec uuid(server) :: String.t
   def uuid(server) do
     [uuid] = :couchbeam.get_uuid(server)
     uuid
@@ -98,6 +104,7 @@ defmodule Couchex do
       Couchex.uuids(server, 3)
       #=> ["267732468d85b6fd22504aeaa4fb8ac9", "267732468d85b6fd22504aeaa4fb8065", "267732468d85b6fd22504aeaa4fb7ca7"]
   """
+  @spec uuids(server, integer) :: list(String.t)
   def uuids(server, number) do
     :couchbeam.get_uuids(server, number)
   end
@@ -115,6 +122,7 @@ defmodule Couchex do
       Couchex.open_db(server, "couchex", [{:basic_auth, {"username", "password"}}])
       #=> {:ok, {:db, server, "couchex", [{:basic_auth, {"username", "password"}}]}}
   """
+  @spec open_db(server, String.t, list(option)) :: {:ok, database} | error
   def open_db(server, db_name, options \\ []) do
     :couchbeam.open_db(server, db_name, options)
   end
@@ -128,6 +136,7 @@ defmodule Couchex do
       Couchex.create_db(server, "couchex")
       #=> {:error, :db_exists}
   """
+  @spec create_db(server, String.t, list(option)) :: database | error
   def create_db(server, db_name, options \\ []) do
     :couchbeam.create_db(server, db_name, options)
   end
@@ -143,6 +152,7 @@ defmodule Couchex do
       Couchex.delete_db(db)
       #=> {:error, :not_found}
   """
+  @spec delete_db(database) :: {:ok, atom} | error
   def delete_db(db) do
     case :couchbeam.delete_db(db) |> map_response do
       {:ok, %{"ok" => true}} -> {:ok, :db_deleted}
@@ -159,6 +169,7 @@ defmodule Couchex do
       Couchex.delete_db(server, "couchex")
       #=> {:error, :not_found}
   """
+  @spec delete_db(server, String.t) :: {:ok, atom} | error
   def delete_db(server, db_name) do
     case :couchbeam.delete_db(server, db_name) |> map_response do
       {:ok, %{"ok" => true}} -> {:ok, :db_deleted}
@@ -178,6 +189,7 @@ defmodule Couchex do
           "instance_start_time" => "1423503379138489", "purge_seq" => 0,
           "update_seq" => 1}
   """
+  @spec db_info(database) :: map | error
   def db_info(db) do
     :couchbeam.db_info(db) |> map_response
   end
@@ -192,6 +204,7 @@ defmodule Couchex do
       Couchex.compact(db)
       #=> :ok
   """
+  @spec compact(database) :: :ok | error
   def compact(db) do
     :couchbeam.compact(db)
   end
@@ -207,6 +220,7 @@ defmodule Couchex do
       Couchex.compact(db, "design_name")
       #=> :ok
   """
+  @spec compact(database, String.t) :: :ok | error
   def compact(db, design_name) do
     :couchbeam.compact(db, design_name)
   end
@@ -218,6 +232,7 @@ defmodule Couchex do
       Couchex.db_exists?(server, "couchex")
       #=> true
   """
+  @spec db_exists?(server, String.t) :: boolean
   def db_exists?(server, db_name) do
     :couchbeam.db_exists(server, db_name)
   end
@@ -236,6 +251,7 @@ defmodule Couchex do
       Couchex.save_doc(db, %{"_id" => "FIRST_ID", "key" => "value"}) # User defined id
       #=> %{"_id" => "FIRST_ID", "_rev" => "1-59414e77c768bc202142ac82c2f129de", "key" => "value"}
   """
+  @spec save_doc(database, map) :: map | error
   def save_doc(db, doc) do
     :couchbeam.save_doc(db, {Mapper.map_to_list(doc)})
     |> map_response
@@ -253,6 +269,7 @@ defmodule Couchex do
       #=> false
 
   """
+  @spec save_doc(database, String.t) :: boolean
   def doc_exists?(db, doc_id) do
     :couchbeam.doc_exists(db, doc_id)
   end
@@ -272,6 +289,7 @@ defmodule Couchex do
       Couchex.put_attachment(db, %{id: doc_id, rev: revision}, attachment)
       #=> {:ok, %{"id" => "18c359e463c37525e0ff484dcc0003b7", "rev" => "3-ebe18f0e4f4c3c717a9e9291bc2465b3"}}
   """
+  @spec put_attachment(database, id_rev, binary) :: {:ok, map} | error
   def put_attachment(db, %{id: id, rev: rev}, attachment) do
     _put_attachment(db, id, attachment, [{:rev, rev}, {:content_type, attachment.content_type}])
   end
@@ -294,6 +312,7 @@ defmodule Couchex do
       #=> {:ok, "SOME DATA - HERE IT'S TEXT"}
 
   """
+  @spec fetch_attachment(database, String.t, String.t) :: {:ok, binary} | error
   def fetch_attachment(db, doc_id, attachment_name) do
     :couchbeam.fetch_attachment(db, doc_id, attachment_name)
   end
@@ -312,10 +331,12 @@ defmodule Couchex do
       Couchex.delete_attachment(db, %{id: "18c359e463c37525e0ff484dcc0003b7", rev: "3-ebe18f0e4f4c3c717a9e9291bc2465b3"}, attachment_name)
       #=> {:ok, %{"id" => "18c359e463c37525e0ff484dcc0003b7", "rev" => "4-ebe18f0e4f4c3c717a9e9291bc2465b3"}}
   """
+  @spec delete_attachment(database, id_rev, String.t) :: {:ok, map} | error
   def delete_attachment(db, %{id: id, rev: rev}, attachment_name) do
     :couchbeam.delete_attachment(db, id, attachment_name, [{:rev, rev}])
     |> map_response
   end
+  @spec delete_attachment(database, id, String.t) :: {:ok, map} | error
   def delete_attachment(db, %{id: id}, attachment_name) do
     {:ok, rev} = lookup_doc_rev(db, id)
     delete_attachment(db, %{id: id, rev: rev}, attachment_name)
@@ -331,9 +352,11 @@ defmodule Couchex do
       Couchex.open_doc(db, %{id: id, rev: revision})
       #=> {:ok, %{"_id" => id, "_rev" => rev, ...}}
   """
+  @spec open_doc(database, id) :: {:ok, map} | error
   def open_doc(db, %{id: id}) do
     :couchbeam.open_doc(db, id) |> map_open_resp
   end
+  @spec open_doc(database, id_rev) :: {atom, map}
   def open_doc(db, %{id: id, rev: rev}) do
     :couchbeam.open_doc(db, id, [{:rev, rev}]) |> map_open_resp
   end
@@ -353,6 +376,7 @@ defmodule Couchex do
       Couchex.find(db, query)
       #=> %{ docs: [%{"_id" => "..."}, ...], warning: <ONLY IF WARNING SENT FROM SERVER> }
   """
+  @spec find(database, query :: map) :: map | error
   def find(db, query) do
     # TODO json_body response can have warning {"warning":"no matching index found, create an index to optimize query time", "docs":[]}
     case post_request(db, "_find", query) do
@@ -373,6 +397,7 @@ defmodule Couchex do
       Couchex.create_index(db, index)
       #=> {:ok, %{id: "id", name: "name-index", status: :created}}
   """
+  @spec create_index(database, index :: map) :: {:ok, map} | error
   def create_index(db, index) do
     ref = post_request(db, "_index", index)
     ref |> :couchbeam_httpc.json_body |> map_index_resp
@@ -410,7 +435,7 @@ defmodule Couchex do
       Couchex.lookup_doc_rev(db, "18c359e463c37525e0ff484dcc0003b7")
       #=> {:ok, "1-59414e77c768bc202142ac82c2f129de"}
   """
-  @spec lookup_doc_rev(database, String.t) :: {atom, String.t}
+  @spec lookup_doc_rev(database, id :: String.t) :: {status :: atom, revision :: String.t} | error
   def lookup_doc_rev(db, id) do
     :couchbeam.lookup_doc_rev(db, id) |> map_response
   end
@@ -422,6 +447,7 @@ defmodule Couchex do
       Couchex.delete_doc(db, %{id: "18c359e463c37525e0ff484dcc0003b7", rev: "1-59414e77c768bc202142ac82c2f129de"})
       #=> %{"id" => "18c359e463c37525e0ff484dcc0003b7", "ok" => true, "rev" => "2-9b2e3bcc3752a3a952a3570b2ed4d27e"}
   """
+  @spec delete_doc(database, map) :: map | error
   def delete_doc(db, %{id: id, rev: rev}) do
     doc = {[{"_id", id}, {"_rev", rev}]}
     :couchbeam.delete_doc(db, doc, [])
@@ -435,6 +461,7 @@ defmodule Couchex do
       Couchex.delete_docs(db, [%{id: "18c359e463c37525e0ff484dcc0003b7", rev: "1-59414e77c768bc202142ac82c2f129de"}])
       #=> [%{"id" => "18c359e463c37525e0ff484dcc0003b7", "ok" => true, "rev" => "2-9b2e3bcc3752a3a952a3570b2ed4d27e"}]
   """
+  @spec delete_docs(database, list(map)) :: list(map) | error
   def delete_docs(db, list) do
     docs = Enum.map(list, fn(doc)-> {[{"_id", doc.id}, {"_rev", doc.rev}]} end)
     {:ok, resp} = :couchbeam.delete_docs(db, docs, [])
@@ -458,6 +485,7 @@ defmodule Couchex do
           ]
 
   """
+  @spec all(database, list(option)) :: list(map) | error
   def all(db, options \\ [:include_docs]) do
     {:ok, resp } = :couchbeam_view.all(db, options)
     resp |> Mapper.list_to_map
@@ -488,10 +516,12 @@ defmodule Couchex do
       changes_fun(<stream_ref>)
 
   """
+  @spec follow(database, list(option)) :: { atom, stream_ref :: reference } | error
   def follow(db, options \\ []) do
     :couchbeam_changes.follow(db, options)
   end
 
+  @spec follow_once(database, list(option)) :: { :ok, stream_ref :: reference } | error
   def follow_once(db, options \\ []) do
     :couchbeam_changes.follow_once(db, options)
   end
@@ -520,6 +550,7 @@ defmodule Couchex do
       {:ok, res} = Couchex.fetch_view(db, {"lists","by_customer_id"},[key: customer_id])
 
   """
+  @spec fetch_view(database, tuple, list(option)) :: map | error
   def fetch_view(db, {design_name, view_name}, options \\ []) do
     :couchbeam_view.fetch(db, {design_name, view_name}, options)
   end
