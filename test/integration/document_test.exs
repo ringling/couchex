@@ -104,8 +104,9 @@ defmodule Integration.DocumentTest do
     test "delete doc", %{db: db} do
       doc = %{"key" => "value", "_id" => "DELETE_DOC"}
       {:ok, resp_doc} = Couchex.save_doc(db, doc)
-      {:ok, resp} = Couchex.delete_doc(db, %{id: resp_doc["_id"], rev: resp_doc["_rev"]})
-      assert resp["ok"]
+      {:ok, %{id: id, rev: rev}} = Couchex.delete_doc(db, %{id: resp_doc["_id"], rev: resp_doc["_rev"]})
+      assert id == resp_doc["_id"]
+      refute rev == resp_doc["_rev"]
       refute Couchex.doc_exists?(db, resp_doc["_id"])
     end
 
