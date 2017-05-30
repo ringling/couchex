@@ -246,10 +246,10 @@ defmodule Couchex do
 
   ## Examples
       Couchex.save_doc(db, %{"key" => "value"}) # Couch auto creates id
-      #=> %{"_id" => "c1cdba4b7d7a963b9ca7c5445684679f", "_rev" => "1-59414e77c768bc202142ac82c2f129de", "key" => "value"}
+      #=> {:ok, %{"_id" => "c1cdba4b7d7a963b9ca7c5445684679f", "_rev" => "1-59414e77c768bc202142ac82c2f129de", "key" => "value"}}
 
       Couchex.save_doc(db, %{"_id" => "FIRST_ID", "key" => "value"}) # User defined id
-      #=> %{"_id" => "FIRST_ID", "_rev" => "1-59414e77c768bc202142ac82c2f129de", "key" => "value"}
+      #=> {:ok, %{"_id" => "FIRST_ID", "_rev" => "1-59414e77c768bc202142ac82c2f129de", "key" => "value"}}
   """
   @spec save_doc(database, map) :: map | error
   def save_doc(db, doc) do
@@ -445,13 +445,14 @@ defmodule Couchex do
 
   ## Examples
       Couchex.delete_doc(db, %{id: "18c359e463c37525e0ff484dcc0003b7", rev: "1-59414e77c768bc202142ac82c2f129de"})
-      #=> %{"id" => "18c359e463c37525e0ff484dcc0003b7", "ok" => true, "rev" => "2-9b2e3bcc3752a3a952a3570b2ed4d27e"}
+      #=> {:ok, %{id: "18c359e463c37525e0ff484dcc0003b7", rev: "2-9b2e3bcc3752a3a952a3570b2ed4d27e"}}
   """
-  @spec delete_doc(database, map) :: map | error
+  @spec delete_doc(database, map) :: {:ok, id_rev} | error
   def delete_doc(db, %{id: id, rev: rev}) do
-    doc = {[{"_id", id}, {"_rev", rev}]}
-    :couchbeam.delete_doc(db, doc, [])
-    |> map_response
+    :couchbeam.delete_doc(db, {[{"_id", id}, {"_rev", rev}]}, [])
+      |> map_response
+      |> map_to_id_rev
+      |> map_response
   end
 
   @doc """
@@ -459,14 +460,20 @@ defmodule Couchex do
 
   ## Examples
       Couchex.delete_docs(db, [%{id: "18c359e463c37525e0ff484dcc0003b7", rev: "1-59414e77c768bc202142ac82c2f129de"}])
-      #=> [%{"id" => "18c359e463c37525e0ff484dcc0003b7", "ok" => true, "rev" => "2-9b2e3bcc3752a3a952a3570b2ed4d27e"}]
+      #=> {:ok, [%{"id" => "18c359e463c37525e0ff484dcc0003b7", "ok" => true, "rev" => "2-9b2e3bcc3752a3a952a3570b2ed4d27e"}]}
   """
-  @spec delete_docs(database, list(map)) :: list(map) | error
+  @spec delete_docs(database, list(map)) :: {:ok, list(map)} | error
   def delete_docs(db, list) do
     docs = Enum.map(list, fn(doc)-> {[{"_id", doc.id}, {"_rev", doc.rev}]} end)
-    {:ok, resp} = :couchbeam.delete_docs(db, docs, [])
-    map_response(resp)
+    resp = :couchbeam.delete_docs(db, docs, [])
+      |> ok_response
+      |> map_response
+      |> ok_response
+    {:ok, Enum.map(resp, &map_to_id_rev/1)}
   end
+
+  defp map_to_id_rev({:ok, id_rev}), do: map_to_id_rev(id_rev)
+  defp map_to_id_rev(%{"id" => id, "ok" => true, "rev" => rev}), do:  %{id: id, rev: rev}
 
   @doc """
   Returns all documents in a database
@@ -487,8 +494,9 @@ defmodule Couchex do
   """
   @spec all(database, list(option)) :: list(map) | error
   def all(db, options \\ [:include_docs]) do
-    {:ok, resp } = :couchbeam_view.all(db, options)
-    resp |> Mapper.list_to_map
+    :couchbeam_view.all(db, options)
+      |> ok_response
+      |> Mapper.list_to_map
   end
 
   @doc """
@@ -554,6 +562,9 @@ defmodule Couchex do
   def fetch_view(db, {design_name, view_name}, options \\ []) do
     :couchbeam_view.fetch(db, {design_name, view_name}, options)
   end
+
+
+  defp ok_response({:ok, response}), do: response
 
   defp map_response({:ok, [{list}]}) when is_list(list), do: {:ok, Enum.into(list, %{})}
   defp map_response(list) when is_list(list) do
