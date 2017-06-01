@@ -98,4 +98,34 @@ defmodule Integration.DatabaseTest do
   #   assert Couchex.db_exists?(server, @integration_test_rep_db)
   # end
 
+  test "follow change", %{db: db} do
+    {:ok, _stream_ref} = Couchex.follow(db, [:continuous, :heartbeat, :include_docs])
+    {:ok, _doc} = Couchex.save_doc(db, %{foo: "bar"})
+
+    # "couchex doc"
+    receive do
+      {_ref, {:change, change}} -> assert seq(change) == "1"
+    end
+
+    # "design doc"
+    receive do
+      {_ref, {:change, change}} -> assert seq(change) == "2"
+    end
+
+    # "our doc"
+    receive do
+      {_ref, {:change, change}} ->
+        [_id, _rev, doc] = change |> Mapper.list_to_map |> Map.get("doc")
+        assert doc == %{"foo" => "bar"}
+        assert seq(change) == "3"
+    end
+
+  end
+
+  def seq(change) do
+    change = change |> Mapper.list_to_map
+    [seq | _] = String.split(change["seq"], "-")
+    seq
+  end
+
 end
