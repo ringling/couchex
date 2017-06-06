@@ -91,12 +91,13 @@ defmodule Integration.DatabaseTest do
     assert Couchex.db_exists?(server, @integration_test_rep_db)
   end
 
-  # test "replicate database continuous", %{server: server} do
-  #   rep_obj = %{source: @integration_test_db, target: @integration_test_rep_db, create_target: true , continuous: true}
-  #   {:ok, resp} = Couchex.replicate(server, rep_obj)
-  #   assert Map.has_key?(resp, "Date")
-  #   assert Couchex.db_exists?(server, @integration_test_rep_db)
-  # end
+  test "replicate database continuous", %{server: server} do
+    rep_obj = %{source: @integration_test_db, target: @integration_test_rep_db, create_target: true , continuous: true}
+    {:ok, resp} = Couchex.replicate(server, rep_obj)
+    assert Map.has_key?(resp, "Date")
+    :timer.sleep(200) # This is not optimal, but we wait for creation of replicated database
+    assert Couchex.db_exists?(server, @integration_test_rep_db)
+  end
 
   test "follow change", %{db: db} do
     {:ok, _stream_ref} = Couchex.follow(db, [:continuous, :heartbeat, :include_docs])
