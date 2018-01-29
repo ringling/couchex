@@ -16,11 +16,10 @@ defmodule Couchex.Mixfile do
 
   defp deps do
     [
-      #{:couchbeam, github: "ringling/couchbeam"},
-      {:couchbeam_amuino, "~> 1.4.3-amuino.5"},
-      {:ex_doc, "~> 0.11", only: :dev},
-      {:earmark, ">= 0.0.0"},
-      {:poison, "~> 3.0"}
+      {:couchbeam_amuino, "~> 1.4.3-amuino.8"},
+      {:ex_doc, "~> 0.18", only: :dev},
+      {:earmark, "~> 1.2"},
+      {:poison, "~> 3.1"}
     ]
   end
 
